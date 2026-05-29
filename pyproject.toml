@@ -1,0 +1,20 @@
+[project]
+name = "palisade"
+version = "0.1.0"
+description = "Palisade - a Linux desktop productivity app that blocks websites and apps on a schedule."
+readme = "README.md"
+authors = [
+    { name = "Jacopo Trompeo", email = "jacopo.trompeo@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "psutil>=7.2.2",
+    "pyside6>=6.11.1",
+]
+
+[project.scripts]
+palisade = "palisade:main"
+
+[build-system]
+requires = ["uv_build>=0.11.16,<0.12.0"]
+build-backend = "uv_build"
