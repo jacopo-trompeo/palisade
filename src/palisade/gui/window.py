@@ -7,6 +7,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from palisade.config import DEV_MODE
+from palisade.gui.widgets.dev_banner import DevBanner
+
 
 class Window(QMainWindow):
     def __init__(self):
@@ -19,6 +22,9 @@ class Window(QMainWindow):
         root_layout = QVBoxLayout(root)
         root_layout.setContentsMargins(0, 0, 0, 0)
         root_layout.setSpacing(0)
+
+        if DEV_MODE:
+            root_layout.addWidget(DevBanner())
 
         body = QWidget()
         body_layout = QHBoxLayout(body)
