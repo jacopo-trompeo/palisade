@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
 )
 
 from palisade.config import DEV_MODE
+from palisade.gui.theme import apply_theme
 from palisade.gui.widgets.dev_banner import DevBanner
 from palisade.gui.widgets.sidebar import Sidebar
 
@@ -17,6 +18,8 @@ class Window(QMainWindow):
         super().__init__()
         self.setWindowTitle("Palisade")
         self.resize(960, 640)
+
+        apply_theme()
 
         root = QWidget()
         self.setCentralWidget(root)

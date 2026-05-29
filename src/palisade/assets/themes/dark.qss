@@ -1,0 +1,16 @@
+QMainWindow,
+QWidget {
+  background-color: #1e1d23;
+  color: #ccd6e5;
+  font-size: 14px;
+}
+
+QFrame#DevBanner {
+  background-color: #f7d579;
+}
+
+QLabel#DevBannerLabel {
+  background: transparent;
+  color: #1e1d23;
+  font-weight: 600;
+}
