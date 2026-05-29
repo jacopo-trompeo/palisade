@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
 
 from palisade.config import DEV_MODE
 from palisade.gui.widgets.dev_banner import DevBanner
+from palisade.gui.widgets.sidebar import Sidebar
 
 
 class Window(QMainWindow):
@@ -31,3 +32,5 @@ class Window(QMainWindow):
         body_layout.setContentsMargins(0, 0, 0, 0)
         body_layout.setSpacing(0)
         root_layout.addWidget(body, 1)
+
+        body_layout.addWidget(Sidebar())
