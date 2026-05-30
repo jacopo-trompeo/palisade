@@ -5,8 +5,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from palisade.gui.views.filter_editor.day_picker import _DayPicker
-from palisade.gui.views.filter_editor.preset_buttons import _PresetButtons
+from palisade.gui.views.filter_editor.day_picker import DayPicker
+from palisade.gui.views.filter_editor.preset_buttons import PresetButtons
+from palisade.gui.views.filter_editor.time_range_row import TimeRangeRow
 from palisade.gui.widgets.section_title import SectionTitle
 
 
@@ -40,7 +41,8 @@ class FilterEditorView(QWidget):
         wrap = QVBoxLayout()
         wrap.setSpacing(12)
 
-        wrap.addWidget(_PresetButtons())
-        wrap.addWidget(_DayPicker())
+        wrap.addWidget(PresetButtons())
+        wrap.addWidget(DayPicker())
+        wrap.addWidget(TimeRangeRow())
 
         return wrap
