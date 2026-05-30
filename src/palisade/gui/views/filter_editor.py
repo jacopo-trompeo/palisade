@@ -34,6 +34,30 @@ class _PresetButtons(QWidget):
         return button
 
 
+class _DayPicker(QWidget):
+    DAY_LABELS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+
+    def __init__(self):
+        super().__init__()
+
+        day_row = QHBoxLayout(self)
+        day_row.setSpacing(6)
+
+        for label in self.DAY_LABELS:
+            button = self._make_day_button(label)
+            day_row.addWidget(button)
+
+        day_row.addStretch(1)
+
+    def _make_day_button(self, key: str):
+        button = QPushButton(key)
+        button.setObjectName("DayButton")
+        button.setCheckable(True)
+        button.setFixedSize(QSize(40, 40))
+        button.setCursor(Qt.CursorShape.PointingHandCursor)
+        return button
+
+
 class FilterEditorView(QWidget):
     def __init__(self):
         super().__init__()
@@ -53,7 +77,7 @@ class FilterEditorView(QWidget):
 
         layout.addWidget(SectionTitle("Name"))
         self._name_input = QLineEdit()
-        self._name_input.setPlaceholderText("Filter name…")
+        self._name_input.setPlaceholderText("Filter name...")
         self._name_input.setObjectName("LargeInput")
         layout.addWidget(self._name_input)
 
@@ -65,4 +89,6 @@ class FilterEditorView(QWidget):
         wrap.setSpacing(12)
 
         wrap.addWidget(_PresetButtons())
+        wrap.addWidget(_DayPicker())
+
         return wrap
