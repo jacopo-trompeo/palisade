@@ -2,6 +2,15 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QHBoxLayout, QPushButton, QWidget
 
 
+class _PresetButton(QPushButton):
+    def __init__(self, label: str):
+        super().__init__(label)
+
+        self.setObjectName("PresetButton")
+        self.setCheckable(True)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+
 class PresetButtons(QWidget):
     PRESETS = ["always", "weekdays", "weekends"]
 
@@ -12,14 +21,7 @@ class PresetButtons(QWidget):
         layout.setSpacing(8)
 
         for key in self.PRESETS:
-            button = self._make_preset_btn(key)
+            button = _PresetButton(key.capitalize())
             layout.addWidget(button)
 
         layout.addStretch(1)
-
-    def _make_preset_btn(self, key: str) -> QPushButton:
-        button = QPushButton(key.capitalize())
-        button.setObjectName("PresetButton")
-        button.setCheckable(True)
-        button.setCursor(Qt.CursorShape.PointingHandCursor)
-        return button

@@ -44,10 +44,12 @@ class TimeRangeRow(QWidget):
         self._end = _TimeInput()
 
         layout.addWidget(self._start)
+
         dash = QLabel("–")
         dash.setObjectName("TimeRangeDash")
+
         layout.addWidget(dash)
         layout.addWidget(self._end)
-
         layout.addWidget(_RemoveButton())
+
         layout.addStretch(1)
