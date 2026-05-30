@@ -47,6 +47,10 @@ class FilterEditorView(QWidget):
         layout.addWidget(SectionTitle("Blocked apps"))
         layout.addLayout(self._build_apps_section())
 
+        layout.addSpacing(8)
+        layout.addLayout(self._build_action_buttons())
+        layout.addStretch(1)
+
     def _build_schedule_section(self) -> QVBoxLayout:
         wrap = QVBoxLayout()
         wrap.setSpacing(12)
@@ -102,3 +106,22 @@ class FilterEditorView(QWidget):
         wrap.addLayout(row)
 
         return wrap
+
+    def _build_action_buttons(self) -> QHBoxLayout:
+        row = QHBoxLayout()
+        row.setSpacing(8)
+        row.addStretch(1)
+
+        cancel_button = QPushButton("Cancel")
+        cancel_button.setObjectName("SecondaryButton")
+        cancel_button.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        row.addWidget(cancel_button)
+
+        save_button = QPushButton("Save")
+        save_button.setObjectName("PrimaryButton")
+        save_button.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        row.addWidget(save_button)
+
+        return row
