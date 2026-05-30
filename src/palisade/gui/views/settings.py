@@ -1,4 +1,14 @@
-from PySide6.QtWidgets import QHBoxLayout, QLabel, QVBoxLayout, QWidget
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+    QButtonGroup,
+    QHBoxLayout,
+    QLabel,
+    QRadioButton,
+    QVBoxLayout,
+    QWidget,
+)
+
+from palisade.gui.theme import apply_theme
 
 
 class SettingsView(QWidget):
@@ -7,10 +17,38 @@ class SettingsView(QWidget):
 
         root = QVBoxLayout(self)
         root.setContentsMargins(32, 28, 32, 28)
-        root.setSpacing(20)
+        root.setSpacing(24)
 
-        header = QHBoxLayout()
-        label = QLabel("Settings")
-        label.setObjectName("SettingsLabel")
-        header.addWidget(label)
-        root.addLayout(header)
+        title = QLabel("Settings")
+        title.setObjectName("PageTitle")
+        root.addWidget(title)
+
+        theme_title = QLabel("Theme")
+        theme_title.setObjectName("SectionTitle")
+        root.addWidget(theme_title)
+
+        theme_row = QHBoxLayout()
+        theme_row.setSpacing(20)
+
+        self._light = QRadioButton("Light")
+        self._light.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._dark = QRadioButton("Dark")
+        self._dark.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        group = QButtonGroup(self)
+        group.addButton(self._light)
+        group.addButton(self._dark)
+
+        self._light.toggled.connect(self._on_theme_changed)
+        self._dark.toggled.connect(self._on_theme_changed)
+
+        theme_row.addWidget(self._light)
+        theme_row.addWidget(self._dark)
+        theme_row.addStretch(1)
+        root.addLayout(theme_row)
+
+        root.addStretch(1)
+
+    def _on_theme_changed(self, _checked: bool) -> None:
+        name = "light" if self._light.isChecked() else "dark"
+        apply_theme(name)
