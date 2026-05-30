@@ -22,4 +22,3 @@ class HomeView(QWidget):
         add_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         add_btn.clicked.connect(self.filter_nav_requested.emit)
         header.addWidget(add_btn)
-        root.addLayout(header)
