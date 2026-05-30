@@ -22,8 +22,13 @@ class Window(QMainWindow):
 
         apply_theme()
 
+        self._build_layout()
+        self._build_pages()
+
+    def _build_layout(self) -> None:
         root = QWidget()
         self.setCentralWidget(root)
+
         root_layout = QVBoxLayout(root)
         root_layout.setContentsMargins(0, 0, 0, 0)
         root_layout.setSpacing(0)
@@ -44,8 +49,6 @@ class Window(QMainWindow):
         self._pages = QStackedWidget()
         self._pages.setObjectName("PageArea")
         body_layout.addWidget(self._pages, 1)
-
-        self._build_pages()
 
     def _build_pages(self) -> None:
         from palisade.gui.views.about import AboutPage
