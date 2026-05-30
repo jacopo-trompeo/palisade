@@ -1,10 +1,6 @@
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QPushButton
+from palisade.gui.widgets.secondary_button import SecondaryButton
 
 
-class CancelButton(QPushButton):
+class CancelButton(SecondaryButton):
     def __init__(self):
         super().__init__("Cancel")
-
-        self.setObjectName("SecondaryButton")
-        self.setCursor(Qt.CursorShape.PointingHandCursor)

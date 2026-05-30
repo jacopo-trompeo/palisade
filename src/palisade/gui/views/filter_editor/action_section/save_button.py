@@ -1,10 +1,6 @@
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QPushButton
+from palisade.gui.widgets.primary_button import PrimaryButton
 
 
-class SaveButton(QPushButton):
+class SaveButton(PrimaryButton):
     def __init__(self):
         super().__init__("Save")
-
-        self.setObjectName("PrimaryButton")
-        self.setCursor(Qt.CursorShape.PointingHandCursor)

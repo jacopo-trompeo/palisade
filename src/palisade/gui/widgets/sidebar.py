@@ -13,6 +13,16 @@ SIDEBAR_ITEMS = [
 ]
 
 
+class _SidebarButton(QPushButton):
+    def __init__(self, label: str, key: str, nav_signal: Signal):
+        super().__init__(label)
+
+        self.setObjectName("SidebarButton")
+        self.setCheckable(True)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.clicked.connect(lambda _checked=False: nav_signal.emit(key))
+
+
 class Sidebar(QFrame):
     nav_requested = Signal(str)
 
@@ -34,13 +44,7 @@ class Sidebar(QFrame):
         layout.addSpacing(12)
 
         for key, label in SIDEBAR_ITEMS:
-            btn = QPushButton(f"{label}")
-            btn.setObjectName("SidebarButton")
-            btn.setCheckable(True)
-            btn.setCursor(Qt.CursorShape.PointingHandCursor)
-            btn.clicked.connect(
-                lambda _checked=False, k=key: self.nav_requested.emit(k)
-            )
+            btn = _SidebarButton(label, key, self.nav_requested)
             layout.addWidget(btn)
             self._buttons[key] = btn
 

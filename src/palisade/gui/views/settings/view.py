@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
 )
 
 from palisade.gui.theme import apply_theme
+from palisade.gui.widgets.section_title import SectionTitle
 
 
 class SettingsView(QWidget):
@@ -23,9 +24,7 @@ class SettingsView(QWidget):
         title.setObjectName("PageTitle")
         root.addWidget(title)
 
-        theme_title = QLabel("Theme")
-        theme_title.setObjectName("SectionTitle")
-        root.addWidget(theme_title)
+        root.addWidget(SectionTitle("Theme"))
 
         theme_row = QHBoxLayout()
         theme_row.setSpacing(20)

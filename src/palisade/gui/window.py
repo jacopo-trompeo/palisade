@@ -24,6 +24,7 @@ class Window(QMainWindow):
 
         self._build_layout()
         self._build_views()
+
         self._on_nav("home")
 
     def _build_layout(self) -> None:

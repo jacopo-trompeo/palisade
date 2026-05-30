@@ -9,6 +9,52 @@ from PySide6.QtWidgets import (
 )
 
 
+class _FilterCardTitle(QLabel):
+    def __init__(self, text: str):
+        super().__init__(text)
+
+        self.setObjectName("FilterCardName")
+
+
+class _FilterCardToggle(QCheckBox):
+    def __init__(self):
+        super().__init__()
+
+        self.setObjectName("FilterCardToggle")
+
+
+class _FilterCardScheduleSummary(QLabel):
+    def __init__(self, text: str):
+        super().__init__(text)
+
+        self.setObjectName("FilterCardSchedule")
+
+
+class _FilterCardBlockedCounts(QLabel):
+    def __init__(self, text: str):
+        super().__init__(text)
+
+        self.setObjectName("FilterCardCounts")
+
+
+class _FilterCardActions(QHBoxLayout):
+    def __init__(self):
+        super().__init__()
+
+        self.setSpacing(8)
+        self.addStretch(1)
+
+        edit_button = QPushButton("Edit")
+        edit_button.setObjectName("FilterCardActionButton")
+        edit_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.addWidget(edit_button)
+
+        delete_button = QPushButton("Delete")
+        delete_button.setObjectName("FilterCardDangerButton")
+        delete_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.addWidget(delete_button)
+
+
 class FilterCard(QFrame):
     def __init__(self):
         super().__init__()
@@ -22,37 +68,19 @@ class FilterCard(QFrame):
         top = QHBoxLayout()
         top.setSpacing(12)
 
-        name = QLabel("Filter Name")
-        name.setObjectName("FilterCardName")
+        name = _FilterCardTitle("Filter")
         top.addWidget(name, 1)
 
-        self.toggle = QCheckBox()
-        self.toggle.setObjectName("FilterCardToggle")
-        self.toggle.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.toggle = _FilterCardToggle()
         top.addWidget(self.toggle)
 
         outer.addLayout(top)
 
-        schedule_summary = QLabel("Always")
-        schedule_summary.setObjectName("FilterCardSchedule")
+        schedule_summary = _FilterCardScheduleSummary("Active Mon-Fri, 9am-5pm")
         outer.addWidget(schedule_summary)
 
-        blocked_counts = QLabel(f"{1} site {2} apps")
-        blocked_counts.setObjectName("FilterCardCounts")
+        blocked_counts = _FilterCardBlockedCounts("1 site, 2 apps")
         outer.addWidget(blocked_counts)
 
-        actions = QHBoxLayout()
-        actions.setSpacing(8)
-        actions.addStretch(1)
-
-        edit_btn = QPushButton("Edit")
-        edit_btn.setObjectName("FilterCardActionButton")
-        edit_btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        actions.addWidget(edit_btn)
-
-        del_btn = QPushButton("Delete")
-        del_btn.setObjectName("FilterCardDangerButton")
-        del_btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        actions.addWidget(del_btn)
-
+        actions = _FilterCardActions()
         outer.addLayout(actions)
