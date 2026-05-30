@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
 
-class AboutPage(QWidget):
+class AboutView(QWidget):
     def __init__(self):
         super().__init__()
         root = QVBoxLayout(self)

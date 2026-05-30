@@ -23,7 +23,7 @@ class Window(QMainWindow):
         apply_theme()
 
         self._build_layout()
-        self._build_pages()
+        self._build_views()
         self._on_nav("home")
 
     def _build_layout(self) -> None:
@@ -47,30 +47,30 @@ class Window(QMainWindow):
         self._sidebar.nav_requested.connect(self._on_nav)
         body_layout.addWidget(self._sidebar)
 
-        self._pages = QStackedWidget()
-        self._pages.setObjectName("PageArea")
-        body_layout.addWidget(self._pages, 1)
+        self._views = QStackedWidget()
+        self._views.setObjectName("ViewArea")
+        body_layout.addWidget(self._views, 1)
 
-    def _build_pages(self) -> None:
-        from palisade.gui.views.about import AboutPage
-        from palisade.gui.views.home import HomePage
-        from palisade.gui.views.settings import SettingsPage
+    def _build_views(self) -> None:
+        from palisade.gui.views.about import AboutView
+        from palisade.gui.views.home import HomeView
+        from palisade.gui.views.settings import SettingsView
 
-        self._home = HomePage()
-        self._settings = SettingsPage()
-        self._about = AboutPage()
+        self._home = HomeView()
+        self._settings = SettingsView()
+        self._about = AboutView()
 
-        self._page_keys: dict[str, int] = {}
+        self._view_keys: dict[str, int] = {}
 
         for key, w in (
             ("home", self._home),
             ("settings", self._settings),
             ("about", self._about),
         ):
-            self._page_keys[key] = self._pages.addWidget(w)
+            self._view_keys[key] = self._views.addWidget(w)
 
     def _on_nav(self, key: str) -> None:
-        if key not in self._page_keys:
+        if key not in self._view_keys:
             return
         self._sidebar.set_active_index(key)
-        self._pages.setCurrentIndex(self._page_keys[key])
+        self._views.setCurrentIndex(self._view_keys[key])
