@@ -37,8 +37,12 @@ class Sidebar(QFrame):
             btn.setCheckable(True)
             btn.setCursor(Qt.CursorShape.PointingHandCursor)
             btn.setProperty("nav_key", key)
-            # btn.clicked.connect(lambda _checked=False, k=key: on_select(k))
+            btn.clicked.connect(lambda _checked=False, k=key: self.set_active(k))
             layout.addWidget(btn)
             self._buttons[key] = btn
 
         layout.addStretch(1)
+
+    def set_active(self, key: str) -> None:
+        for k, btn in self._buttons.items():
+            btn.setChecked(k == key)

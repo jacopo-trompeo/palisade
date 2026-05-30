@@ -14,3 +14,13 @@ QLabel#DevBannerLabel {
   color: #1e1d23;
   font-weight: 600;
 }
+
+QPushButton#SidebarButton {
+    background-color: transparent;
+    color: #00000;
+}
+
+QPushButton#SidebarButton:checked {
+    background-color: #ff0000;
+    color: #fffff;
+}
