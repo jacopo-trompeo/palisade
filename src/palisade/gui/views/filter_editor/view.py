@@ -14,6 +14,7 @@ from palisade.gui.widgets.section_title import SectionTitle
 class FilterEditorView(QWidget):
     def __init__(self):
         super().__init__()
+
         root = QVBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
         root.setSpacing(0)

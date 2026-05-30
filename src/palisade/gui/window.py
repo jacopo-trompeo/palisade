@@ -16,6 +16,7 @@ from palisade.gui.widgets.sidebar import Sidebar
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
+
         self.setWindowTitle("Palisade")
         self.resize(960, 640)
 

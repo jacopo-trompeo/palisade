@@ -18,8 +18,10 @@ class Sidebar(QFrame):
 
     def __init__(self):
         super().__init__()
+
         self.setObjectName("Sidebar")
         self.setFixedWidth(200)
+
         self._buttons: dict[str, QPushButton] = {}
 
         layout = QVBoxLayout(self)

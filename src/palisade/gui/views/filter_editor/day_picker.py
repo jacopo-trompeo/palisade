@@ -2,7 +2,7 @@ from PySide6.QtCore import QSize, Qt
 from PySide6.QtWidgets import QHBoxLayout, QPushButton, QWidget
 
 
-class _DayPicker(QWidget):
+class DayPicker(QWidget):
     DAY_LABELS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
 
     def __init__(self):

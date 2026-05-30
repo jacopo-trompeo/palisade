@@ -2,7 +2,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QHBoxLayout, QPushButton, QWidget
 
 
-class _PresetButtons(QWidget):
+class PresetButtons(QWidget):
     PRESETS = ["always", "weekdays", "weekends"]
 
     def __init__(self):

@@ -7,6 +7,7 @@ class HomeView(QWidget):
 
     def __init__(self):
         super().__init__()
+
         root = QVBoxLayout(self)
         root.setContentsMargins(32, 28, 32, 28)
         root.setSpacing(20)
