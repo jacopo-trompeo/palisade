@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
 
 from palisade.config import DEV_MODE
 from palisade.gui.theme import apply_theme
+from palisade.gui.views.filter_editor import FilterEditorView
 from palisade.gui.widgets.dev_banner import DevBanner
 from palisade.gui.widgets.sidebar import Sidebar
 
@@ -59,15 +60,16 @@ class Window(QMainWindow):
         self._home = HomeView()
         self._settings = SettingsView()
         self._about = AboutView()
+        self._filter_editor = FilterEditorView()
 
-        self._view_keys: dict[str, int] = {}
+        self._view_keys: dict[str, int] = {
+            "home": self._views.addWidget(self._home),
+            "settings": self._views.addWidget(self._settings),
+            "about": self._views.addWidget(self._about),
+            "filter_editor": self._views.addWidget(self._filter_editor),
+        }
 
-        for key, w in (
-            ("home", self._home),
-            ("settings", self._settings),
-            ("about", self._about),
-        ):
-            self._view_keys[key] = self._views.addWidget(w)
+        self._home.filter_nav_requested.connect(lambda: self._on_nav("filter_editor"))
 
     def _on_nav(self, key: str) -> None:
         if key not in self._view_keys:
