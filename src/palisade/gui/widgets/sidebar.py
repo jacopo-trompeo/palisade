@@ -39,17 +39,13 @@ class Sidebar(QFrame):
             btn.setCheckable(True)
             btn.setCursor(Qt.CursorShape.PointingHandCursor)
             btn.clicked.connect(
-                lambda _checked=False, k=key: self._on_nav_item_click(k)
+                lambda _checked=False, k=key: self.nav_requested.emit(k)
             )
             layout.addWidget(btn)
             self._buttons[key] = btn
 
         layout.addStretch(1)
 
-    def _on_nav_item_click(self, key: str) -> None:
-        self._set_active_index(key)
-        self.nav_requested.emit(key)
-
-    def _set_active_index(self, key: str) -> None:
+    def set_active_index(self, key: str) -> None:
         for k, btn in self._buttons.items():
             btn.setChecked(k == key)

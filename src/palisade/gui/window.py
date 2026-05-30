@@ -24,6 +24,7 @@ class Window(QMainWindow):
 
         self._build_layout()
         self._build_pages()
+        self._on_nav("home")
 
     def _build_layout(self) -> None:
         root = QWidget()
@@ -71,4 +72,5 @@ class Window(QMainWindow):
     def _on_nav(self, key: str) -> None:
         if key not in self._page_keys:
             return
+        self._sidebar.set_active_index(key)
         self._pages.setCurrentIndex(self._page_keys[key])
