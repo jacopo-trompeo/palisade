@@ -1,6 +1,9 @@
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
+    QHBoxLayout,
     QLabel,
     QLineEdit,
+    QPushButton,
     QVBoxLayout,
     QWidget,
 )
@@ -38,6 +41,9 @@ class FilterEditorView(QWidget):
         layout.addWidget(SectionTitle("Schedule"))
         layout.addLayout(self._build_schedule_section())
 
+        layout.addWidget(SectionTitle("Blocked Websites"))
+        layout.addLayout(self._build_websites_section())
+
     def _build_schedule_section(self) -> QVBoxLayout:
         wrap = QVBoxLayout()
         wrap.setSpacing(12)
@@ -45,5 +51,24 @@ class FilterEditorView(QWidget):
         wrap.addWidget(PresetButtons())
         wrap.addWidget(DayPicker())
         wrap.addWidget(TimeRangeRow())
+
+        return wrap
+
+    def _build_websites_section(self) -> QVBoxLayout:
+        wrap = QVBoxLayout()
+        wrap.setSpacing(8)
+
+        row = QHBoxLayout()
+        self._website_input = QLineEdit()
+        self._website_input.setPlaceholderText("example.com")
+
+        row.addWidget(self._website_input, 1)
+
+        add_button = QPushButton("Add")
+        add_button.setObjectName("SecondaryButton")
+        add_button.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        row.addWidget(add_button)
+        wrap.addLayout(row)
 
         return wrap
