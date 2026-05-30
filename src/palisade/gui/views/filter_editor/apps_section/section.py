@@ -10,6 +10,7 @@ class AppsSection(QWidget):
         super().__init__()
 
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(8)
 
         row = QHBoxLayout()

@@ -1,26 +1,347 @@
+/* --- root --- */
+
 QMainWindow,
 QWidget {
-  background-color: #f9fafb;
-  color: #1e1d23;
+  background-color: #f6f6f7;
+  color: #1b1b1f;
   font-size: 14px;
 }
 
-QFrame#DevBanner {
-  background-color: #f7d579;
+/* --- dev banner --- */
+
+#DevBanner {
+  background-color: #f2c14e;
 }
 
-QLabel#DevBannerLabel {
+#DevBannerLabel {
   background: transparent;
-  color: #1e1d23;
+  color: #131316;
   font-weight: 600;
 }
 
-QPushButton#SidebarButton {
-    background-color: transparent;
-    color: #00000;
+/* --- sidebar --- */
+
+#Sidebar {
+  background-color: #f0f0f2;
+  border-right: 1px solid #e3e3e7;
 }
 
-QPushButton#SidebarButton:checked {
-    background-color: #ff0000;
-    color: #fffff;
+#SidebarTitle {
+  background: transparent;
+  color: #1b1b1f;
+  font-size: 22px;
+  font-weight: 700;
+  padding-left: 4px;
+}
+
+#SidebarButton {
+  background-color: transparent;
+  color: #55555e;
+  text-align: left;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+#SidebarButton:hover {
+  background-color: #eeeef0;
+  color: #1b1b1f;
+}
+
+#SidebarButton:checked {
+  background-color: #ececfb;
+  color: #1b1b1f;
+}
+
+/* --- titles --- */
+
+#PageTitle {
+  background: transparent;
+  color: #1b1b1f;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+#SectionTitle {
+  background: transparent;
+  color: #87878f;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding-top: 6px;
+}
+
+/* --- filter cards --- */
+
+#FilterCard {
+  background-color: #ffffff;
+  border: 1px solid #e3e3e7;
+  border-radius: 8px;
+}
+
+#FilterCardName {
+  background: transparent;
+  color: #1b1b1f;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+#FilterCardSchedule {
+  background: transparent;
+  color: #87878f;
+  font-size: 13px;
+}
+
+#FilterCardCounts {
+  background: transparent;
+  color: #87878f;
+  font-size: 13px;
+}
+
+#FilterCardActionButton {
+  background-color: transparent;
+  color: #55555e;
+  border: 1px solid #e3e3e7;
+  border-radius: 6px;
+  padding: 6px 12px;
+}
+
+#FilterCardActionButton:hover {
+  background-color: #eeeef0;
+  color: #1b1b1f;
+}
+
+#FilterCardDangerButton {
+  background-color: transparent;
+  color: #dc2626;
+  border: 1px solid #fbeaea;
+  border-radius: 6px;
+  padding: 6px 12px;
+}
+
+#FilterCardDangerButton:hover {
+  background-color: #fbeaea;
+}
+
+#FilterCardToggle {
+  background: transparent;
+  spacing: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+#FilterCardToggle::indicator {
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  background-color: #d4d4da;
+  border: none;
+  margin: 0;
+}
+
+#FilterCardToggle::indicator:hover {
+  background-color: #c2c2ca;
+}
+
+#FilterCardToggle::indicator:checked {
+  background-color: #5457e6;
+}
+
+#FilterCardToggle::indicator:checked:hover {
+  background-color: #4a4ddb;
+}
+
+/* --- buttons --- */
+
+#PrimaryButton {
+  background-color: #5457e6;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 600;
+}
+
+#PrimaryButton:hover {
+  background-color: #4a4ddb;
+}
+
+#PrimaryButton:disabled {
+  background-color: #eeeef0;
+  color: #b4b4bc;
+}
+
+#SecondaryButton {
+  background-color: transparent;
+  color: #1b1b1f;
+  border: 1px solid #e3e3e7;
+  border-radius: 6px;
+  padding: 8px 14px;
+}
+
+#SecondaryButton:hover {
+  background-color: #eeeef0;
+}
+
+#SecondaryButton:disabled {
+  color: #b4b4bc;
+}
+
+#IconButton {
+  background-color: transparent;
+  border: none;
+  border-radius: 6px;
+}
+
+#IconButton:hover {
+  background-color: #eeeef0;
+}
+
+#PresetButton {
+  background-color: transparent;
+  color: #55555e;
+  border: 1px solid #e3e3e7;
+  border-radius: 6px;
+  padding: 6px 14px;
+}
+
+#PresetButton:hover {
+  background-color: #eeeef0;
+}
+
+#PresetButton:checked {
+  background-color: #ececfb;
+  border-color: #5457e6;
+  color: #1b1b1f;
+}
+
+#DayButton {
+  background-color: transparent;
+  color: #55555e;
+  border: 1px solid #e3e3e7;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+#DayButton:hover {
+  background-color: #eeeef0;
+}
+
+#DayButton:checked {
+  background-color: #5457e6;
+  color: #ffffff;
+  border-color: #5457e6;
+}
+
+QRadioButton {
+  background: transparent;
+  color: #1b1b1f;
+  spacing: 8px;
+}
+
+QRadioButton::indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 9px;
+  border: 2px solid #d4d4da;
+  background-color: transparent;
+}
+
+QRadioButton::indicator:checked {
+  background-color: #5457e6;
+  border: 4px solid #5457e6;
+}
+
+/* --- inputs --- */
+
+QLineEdit {
+  background-color: #ffffff;
+  color: #1b1b1f;
+  border: 1px solid #e3e3e7;
+  border-radius: 6px;
+  padding: 8px 12px;
+  selection-background-color: #5457e6;
+}
+
+QLineEdit:focus {
+  border-color: #5457e6;
+}
+
+#FilterInput {
+  font-size: 16px;
+  padding: 10px 14px;
+}
+
+#TimeInput {
+  font-size: 15px;
+  padding: 6px 8px;
+}
+
+QLineEdit:disabled {
+  color: #b4b4bc;
+}
+
+#TimeRangeDash {
+  background: transparent;
+  color: #87878f;
+  font-size: 16px;
+}
+
+/* --- about page --- */
+
+#AboutAppName {
+  background: transparent;
+  color: #1b1b1f;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+#AboutAppVersion {
+  background: transparent;
+  color: #87878f;
+  font-size: 13px;
+}
+
+#AboutAppDescription {
+  background: transparent;
+  color: #55555e;
+  font-size: 14px;
+}
+
+#AboutAppCreator {
+  background: transparent;
+  color: #87878f;
+  font-size: 13px;
+  padding-top: 8px;
+}
+
+/* --- scrollbars --- */
+
+QScrollBar:vertical {
+  background: transparent;
+  width: 10px;
+  margin: 4px 2px 4px 2px;
+}
+
+QScrollBar::handle:vertical {
+  background: #cfcfd6;
+  border-radius: 4px;
+  min-height: 30px;
+}
+
+QScrollBar::handle:vertical:hover {
+  background: #b6b6bf;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+  height: 0;
+}
+
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+  background: none;
 }

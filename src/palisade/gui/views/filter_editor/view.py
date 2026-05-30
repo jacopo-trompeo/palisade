@@ -35,7 +35,7 @@ class FilterEditorView(QWidget):
         layout.addWidget(SectionTitle("Name"))
         self._name_input = QLineEdit()
         self._name_input.setPlaceholderText("Filter name...")
-        self._name_input.setObjectName("LargeInput")
+        self._name_input.setObjectName("FilterInput")
         layout.addWidget(self._name_input)
 
         layout.addWidget(SectionTitle("Schedule"))

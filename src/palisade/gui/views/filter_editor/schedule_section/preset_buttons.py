@@ -18,6 +18,7 @@ class PresetButtons(QWidget):
         super().__init__()
 
         layout = QHBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(8)
 
         for key in self.PRESETS:

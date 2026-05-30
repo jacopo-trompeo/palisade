@@ -19,6 +19,7 @@ class DayPicker(QWidget):
         super().__init__()
 
         day_row = QHBoxLayout(self)
+        day_row.setContentsMargins(0, 0, 0, 0)
         day_row.setSpacing(6)
 
         for label in self.DAY_LABELS:

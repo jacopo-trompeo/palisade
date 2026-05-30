@@ -21,13 +21,17 @@ class HomeView(QWidget):
         root.setSpacing(20)
 
         header = QHBoxLayout()
+
         label = QLabel("Home")
-        label.setObjectName("HomeLabel")
+        label.setObjectName("PageTitle")
         header.addWidget(label)
-        root.addLayout(header)
+
+        header.addStretch(1)
 
         add_button = PrimaryButton("Add Filter")
         add_button.clicked.connect(self.filter_nav_requested.emit)
         header.addWidget(add_button)
+
+        root.addLayout(header)
 
         root.addWidget(FilterCardList(), 1)
