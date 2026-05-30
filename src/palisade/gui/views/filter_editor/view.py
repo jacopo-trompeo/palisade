@@ -44,6 +44,9 @@ class FilterEditorView(QWidget):
         layout.addWidget(SectionTitle("Blocked Websites"))
         layout.addLayout(self._build_websites_section())
 
+        layout.addWidget(SectionTitle("Blocked apps"))
+        layout.addLayout(self._build_apps_section())
+
     def _build_schedule_section(self) -> QVBoxLayout:
         wrap = QVBoxLayout()
         wrap.setSpacing(12)
@@ -59,6 +62,7 @@ class FilterEditorView(QWidget):
         wrap.setSpacing(8)
 
         row = QHBoxLayout()
+
         self._website_input = QLineEdit()
         self._website_input.setPlaceholderText("example.com")
 
@@ -69,6 +73,32 @@ class FilterEditorView(QWidget):
         add_button.setCursor(Qt.CursorShape.PointingHandCursor)
 
         row.addWidget(add_button)
+        wrap.addLayout(row)
+
+        return wrap
+
+    def _build_apps_section(self) -> QVBoxLayout:
+        wrap = QVBoxLayout()
+        wrap.setSpacing(8)
+
+        row = QHBoxLayout()
+
+        self._app_input = QLineEdit()
+        self._app_input.setPlaceholderText("process name (e.g. discord)")
+
+        row.addWidget(self._app_input, 1)
+
+        add_button = QPushButton("Add")
+        add_button.setObjectName("SecondaryButton")
+        add_button.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        row.addWidget(add_button)
+
+        browse_button = QPushButton("Browse installed apps")
+        browse_button.setObjectName("SecondaryButton")
+        browse_button.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        row.addWidget(browse_button)
         wrap.addLayout(row)
 
         return wrap
