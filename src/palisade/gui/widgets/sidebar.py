@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QFrame,
     QLabel,
@@ -16,6 +16,8 @@ SIDEBAR_ITEMS = [
 
 
 class Sidebar(QFrame):
+    nav_requested = Signal(str)
+
     def __init__(self):
         super().__init__()
         self.setObjectName("Sidebar")
@@ -36,13 +38,18 @@ class Sidebar(QFrame):
             btn.setObjectName("SidebarButton")
             btn.setCheckable(True)
             btn.setCursor(Qt.CursorShape.PointingHandCursor)
-            btn.setProperty("nav_key", key)
-            btn.clicked.connect(lambda _checked=False, k=key: self.set_active(k))
+            btn.clicked.connect(
+                lambda _checked=False, k=key: self._on_nav_item_click(k)
+            )
             layout.addWidget(btn)
             self._buttons[key] = btn
 
         layout.addStretch(1)
 
-    def set_active(self, key: str) -> None:
+    def _on_nav_item_click(self, key: str) -> None:
+        self._set_active_index(key)
+        self.nav_requested.emit(key)
+
+    def _set_active_index(self, key: str) -> None:
         for k, btn in self._buttons.items():
             btn.setChecked(k == key)

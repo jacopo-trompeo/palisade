@@ -3,6 +3,7 @@ from __future__ import annotations
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QMainWindow,
+    QStackedWidget,
     QVBoxLayout,
     QWidget,
 )
@@ -36,4 +37,35 @@ class Window(QMainWindow):
         body_layout.setSpacing(0)
         root_layout.addWidget(body, 1)
 
-        body_layout.addWidget(Sidebar())
+        self._sidebar = Sidebar()
+        self._sidebar.nav_requested.connect(self._on_nav)
+        body_layout.addWidget(self._sidebar)
+
+        self._pages = QStackedWidget()
+        self._pages.setObjectName("PageArea")
+        body_layout.addWidget(self._pages, 1)
+
+        self._build_pages()
+
+    def _build_pages(self) -> None:
+        from palisade.gui.views.about import AboutPage
+        from palisade.gui.views.home import HomePage
+        from palisade.gui.views.settings import SettingsPage
+
+        self._home = HomePage()
+        self._settings = SettingsPage()
+        self._about = AboutPage()
+
+        self._page_keys: dict[str, int] = {}
+
+        for key, w in (
+            ("home", self._home),
+            ("settings", self._settings),
+            ("about", self._about),
+        ):
+            self._page_keys[key] = self._pages.addWidget(w)
+
+    def _on_nav(self, key: str) -> None:
+        if key not in self._page_keys:
+            return
+        self._pages.setCurrentIndex(self._page_keys[key])
