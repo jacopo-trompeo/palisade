@@ -25,7 +25,7 @@ class Window(QMainWindow):
         self._build_layout()
         self._build_views()
 
-        self._on_nav("home")
+        self.navigate("home")
 
     def _build_layout(self) -> None:
         root = QWidget()
@@ -45,7 +45,7 @@ class Window(QMainWindow):
         root_layout.addWidget(body, 1)
 
         self._sidebar = Sidebar()
-        self._sidebar.nav_requested.connect(self._on_nav)
+        self._sidebar.nav_requested.connect(self.navigate)
         body_layout.addWidget(self._sidebar)
 
         self._views = QStackedWidget()
@@ -60,7 +60,7 @@ class Window(QMainWindow):
         self._home = HomeView()
         self._settings = SettingsView()
         self._about = AboutView()
-        self._filter_editor = FilterEditorView()
+        self._filter_editor = FilterEditorView(self)
 
         self._view_keys: dict[str, int] = {
             "home": self._views.addWidget(self._home),
@@ -69,9 +69,9 @@ class Window(QMainWindow):
             "filter_editor": self._views.addWidget(self._filter_editor),
         }
 
-        self._home.filter_nav_requested.connect(lambda: self._on_nav("filter_editor"))
+        self._home.filter_nav_requested.connect(lambda: self.navigate("filter_editor"))
 
-    def _on_nav(self, key: str) -> None:
+    def navigate(self, key: str) -> None:
         if key not in self._view_keys:
             return
         self._sidebar.set_active_index(key)

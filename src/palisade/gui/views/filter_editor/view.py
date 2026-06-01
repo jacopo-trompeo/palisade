@@ -13,8 +13,9 @@ from palisade.gui.widgets.section_title import SectionTitle
 
 
 class FilterEditorView(QWidget):
-    def __init__(self):
+    def __init__(self, main_window):
         super().__init__()
+        self._main_window = main_window
 
         root = QVBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
@@ -49,6 +50,11 @@ class FilterEditorView(QWidget):
 
         layout.addSpacing(8)
 
-        layout.addWidget(ActionSection())
+        actions = ActionSection()
+        actions.cancel_requested.connect(self._on_cancel_requested)
+        layout.addWidget(actions)
 
         layout.addStretch(1)
+
+    def _on_cancel_requested(self):
+        self._main_window.navigate("home")
