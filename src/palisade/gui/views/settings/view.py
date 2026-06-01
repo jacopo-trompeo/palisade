@@ -8,7 +8,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from palisade.gui.theme import apply_theme
+from palisade.dbi import set_setting
+from palisade.gui.theme import apply_theme, current_theme
 from palisade.gui.widgets.section_title import SectionTitle
 
 
@@ -34,6 +35,11 @@ class SettingsView(QWidget):
         self._dark = QRadioButton("Dark")
         self._dark.setCursor(Qt.CursorShape.PointingHandCursor)
 
+        if current_theme() == "light":
+            self._light.setChecked(True)
+        else:
+            self._dark.setChecked(True)
+
         group = QButtonGroup(self)
         group.addButton(self._light)
         group.addButton(self._dark)
@@ -50,4 +56,5 @@ class SettingsView(QWidget):
 
     def _on_theme_changed(self, _checked: bool) -> None:
         name = "light" if self._light.isChecked() else "dark"
+        set_setting("theme", name)
         apply_theme(name)

@@ -3,8 +3,15 @@ import sys
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
+from palisade.config import DEV_MODE
+
 
 def run() -> int:
+    if DEV_MODE:
+        from palisade.db.database import init_db
+
+        init_db()
+
     app = QApplication.instance()
     if not isinstance(app, QApplication):
         app = QApplication(sys.argv)
