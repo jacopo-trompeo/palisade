@@ -1,4 +1,6 @@
-from PySide6.QtCore import QSize, Qt
+from typing import cast
+
+from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtWidgets import QHBoxLayout, QPushButton, QWidget
 
 
@@ -13,17 +15,47 @@ class _DayButton(QPushButton):
 
 
 class DayPicker(QWidget):
-    DAY_LABELS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+    _DAY_LABELS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+    toggled = Signal()
 
     def __init__(self):
         super().__init__()
+        self._selected_days: set[int] = set()
 
         day_row = QHBoxLayout(self)
         day_row.setContentsMargins(0, 0, 0, 0)
         day_row.setSpacing(6)
 
-        for label in self.DAY_LABELS:
+        for i, label in enumerate(self._DAY_LABELS):
             button = _DayButton(label)
+            button.clicked.connect(lambda checked, idx=i: self.toggle_day(checked, idx))
             day_row.addWidget(button)
 
         day_row.addStretch(1)
+
+    def toggle_day(self, checked: bool, day_index: int):
+        if checked:
+            self._selected_days.add(day_index)
+        else:
+            self._selected_days.discard(day_index)
+        self.toggled.emit()
+
+    def set_days(self, days: set[int]):
+        self._selected_days = set(days)
+        for i, btn in enumerate(self._buttons):
+            btn.setChecked(i in days)
+
+    @property
+    def selected_days(self) -> frozenset[int]:
+        return frozenset(self._selected_days)
+
+    @property
+    def _buttons(self) -> list[_DayButton]:
+        layout = cast(QHBoxLayout, self.layout())
+        return [
+            widget
+            for i in range(layout.count())
+            if (item := layout.itemAt(i)) is not None
+            and (widget := item.widget()) is not None
+            and isinstance(widget, _DayButton)
+        ]

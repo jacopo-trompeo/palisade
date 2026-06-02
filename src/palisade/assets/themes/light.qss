@@ -255,6 +255,18 @@ QRadioButton::indicator:checked {
   border: 4px solid #5457e6;
 }
 
+QPushButton#LinkButton {
+  background-color: transparent;
+  color: #4a72c4;
+  border: none;
+  padding: 4px 6px;
+  font-weight: 600;
+}
+QPushButton#LinkButton:hover {
+  color: #5a83d6;
+  text-decoration: underline;
+}
+
 /* --- inputs --- */
 
 QLineEdit {
