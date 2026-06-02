@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QHBoxLayout, QMessageBox, QVBoxLayout, QWidget
 from palisade.db.models import is_valid_domain
 from palisade.gui.views.filter_editor.websites_section.add_button import AddButton
 from palisade.gui.views.filter_editor.websites_section.website_input import WebsiteInput
-from palisade.gui.widgets.chip import Chip
+from palisade.gui.widgets.chip import Chip, remove_chip
 from palisade.gui.widgets.flow_layout import FlowLayout
 
 
@@ -20,6 +20,7 @@ class WebsitesSection(QWidget):
         self._website_input = WebsiteInput()
         self._website_input.returnPressed.connect(self._add_website)
         row.addWidget(self._website_input, 1)
+
         self._add_button = AddButton()
         self._add_button.clicked.connect(self._add_website)
         row.addWidget(self._add_button)
@@ -46,24 +47,16 @@ class WebsitesSection(QWidget):
         if raw in self.websites:
             self._website_input.clear()
             return
+
         self._add_website_chip(raw)
         self._website_input.clear()
 
     def _add_website_chip(self, domain: str) -> None:
         chip = Chip(domain)
         chip.removed.connect(
-            lambda value: self._remove_website_chip(self._website_chips_layout, value)
+            lambda value: remove_chip(self._website_chips_layout, value)
         )
         self._website_chips_layout.addWidget(chip)
-
-    def _remove_website_chip(self, layout, value: str) -> None:
-        for i in range(layout.count()):
-            item = layout.itemAt(i)
-            w = item.widget() if item else None
-            if isinstance(w, Chip) and w.value == value:
-                layout.takeAt(i)
-                w.deleteLater()
-                return
 
     @property
     def websites(self) -> list[str]:

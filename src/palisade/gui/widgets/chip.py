@@ -1,7 +1,7 @@
 import qtawesome as qta
 from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QIcon, QPixmap
-from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QPushButton
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QLayout, QPushButton
 
 
 def _build_icon(icon: QIcon | QPixmap) -> QLabel:
@@ -54,3 +54,13 @@ class Chip(QFrame):
         delete_button = _DeleteButton()
         delete_button.clicked.connect(lambda: self.removed.emit(self.value))
         layout.addWidget(delete_button)
+
+
+def remove_chip(layout: QLayout, value: str) -> None:
+    for i in range(layout.count()):
+        item = layout.itemAt(i)
+        widget = item.widget() if item else None
+        if isinstance(widget, Chip) and widget.value == value:
+            layout.takeAt(i)
+            widget.deleteLater()
+            return
