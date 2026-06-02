@@ -49,9 +49,7 @@ class AppsSection(QWidget):
 
     def _add_app_chip(self, app_name: str, icon: QIcon | None = None) -> None:
         chip = Chip(app_name, icon=icon)
-        chip.removed.connect(
-            lambda value: remove_chip(self._app_chips_layout, value)
-        )
+        chip.removed.connect(lambda value: remove_chip(self._app_chips_layout, value))
         self._app_chips_layout.addWidget(chip)
 
     def _open_app_picker(self) -> None:
@@ -62,6 +60,12 @@ class AppsSection(QWidget):
                     continue
                 icon = QIcon.fromTheme(app.icon) if app.icon else None
                 self._add_app(app.exec_name, icon)
+
+    def clear(self) -> None:
+        for i in range(self._app_chips_layout.count()):
+            item = self._app_chips_layout.itemAt(i)
+            if item is not None and item.widget() is not None:
+                item.widget().deleteLater()
 
     @property
     def apps(self) -> list[str]:

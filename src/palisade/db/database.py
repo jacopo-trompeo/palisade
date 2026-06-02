@@ -3,6 +3,7 @@ from collections.abc import Generator
 from contextlib import contextmanager
 
 from palisade.config import DB_PATH
+from palisade.db.models import Filter
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS filters (
@@ -39,6 +40,23 @@ def connect() -> Generator[sqlite3.Connection]:
         conn.commit()
     finally:
         conn.close()
+
+
+def create_filter(f: Filter) -> None:
+    with connect() as conn:
+        conn.execute(
+            """INSERT INTO filters
+            (id, name, schedule_json, blocked_websites_json, blocked_apps_json,
+             enabled, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            f.to_row(),
+        )
+
+
+def list_filters() -> list[Filter]:
+    with connect() as conn:
+        rows = conn.execute("SELECT * FROM filters ORDER BY created_at ASC").fetchall()
+    return [Filter.from_row(r) for r in rows]
 
 
 def get_setting(key: str, default: str | None = None) -> str | None:

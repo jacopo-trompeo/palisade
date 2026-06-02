@@ -2,6 +2,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
 
 from palisade.db.models import TimeRange
+from palisade.gui import widgets
 from palisade.gui.views.filter_editor.schedule_section.day_picker import DayPicker
 from palisade.gui.views.filter_editor.schedule_section.preset_buttons import (
     PresetButtons,
@@ -50,6 +51,8 @@ class ScheduleSection(QWidget):
         layout.addWidget(self.preset_buttons)
         layout.addWidget(self._detail_panel)
 
+        self._add_time_range(None)
+
     def _set_date_time_visible(self):
         selected = self.preset_buttons.selected
         if selected == "always":
@@ -97,6 +100,16 @@ class ScheduleSection(QWidget):
         for r in rows:
             if isinstance(r, TimeRangeRow):
                 r.set_remove_button_visible(not single)
+
+    def clear(self) -> None:
+        self.preset_buttons.apply_preset("always")
+        self.day_picker.set_days(set())
+        for i in range(self._ranges_container.count()):
+            item = self._ranges_container.itemAt(i)
+            widget = item.widget() if item else None
+            if item is not None and widget is not None:
+                widget.deleteLater()
+        self._add_time_range(None)
 
     @property
     def time_ranges(self) -> list[TimeRange]:

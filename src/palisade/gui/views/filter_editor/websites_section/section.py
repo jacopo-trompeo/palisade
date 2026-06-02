@@ -58,6 +58,12 @@ class WebsitesSection(QWidget):
         )
         self._website_chips_layout.addWidget(chip)
 
+    def clear(self) -> None:
+        for i in range(self._website_chips_layout.count()):
+            item = self._website_chips_layout.itemAt(i)
+            if item is not None and item.widget() is not None:
+                item.widget().deleteLater()
+
     @property
     def websites(self) -> list[str]:
         return [
