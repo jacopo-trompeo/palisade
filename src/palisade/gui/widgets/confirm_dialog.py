@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (
 from palisade.gui.widgets.secondary_button import SecondaryButton
 
 
-class TypedConfirmDialog(QDialog):
+class ConfirmDialog(QDialog):
     def __init__(
         self,
         parent: QWidget | None,
@@ -69,7 +69,7 @@ class TypedConfirmDialog(QDialog):
 
 
 def confirm_delete(parent: QWidget | None, filter_name: str) -> bool:
-    dlg = TypedConfirmDialog(
+    dlg = ConfirmDialog(
         parent,
         title="Delete filter",
         prompt_html=(
@@ -85,7 +85,7 @@ def confirm_delete(parent: QWidget | None, filter_name: str) -> bool:
 
 
 def confirm_disable(parent: QWidget | None, filter_name: str) -> bool:
-    dlg = TypedConfirmDialog(
+    dlg = ConfirmDialog(
         parent,
         title="Disable filter",
         prompt_html=(
