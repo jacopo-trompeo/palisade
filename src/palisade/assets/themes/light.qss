@@ -381,3 +381,27 @@ QScrollBar::sub-page:vertical {
 QPushButton#ChipClose:hover {
   background-color: #dedee5;
 }
+
+/* --- dialogs --- */
+
+QDialog {
+  background-color: #f6f6f8;
+}
+
+#AppPickerList {
+  background-color: #ffffff;
+  border: 1px solid #d8d8dc;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+QListWidget#AppPickerList::item {
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #1a1c20;
+}
+
+QListWidget#AppPickerList::item:selected {
+  background-color: #c8d4ee;
+  color: #1a1c20;
+}

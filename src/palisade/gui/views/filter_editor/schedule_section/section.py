@@ -46,7 +46,6 @@ class ScheduleSection(QWidget):
         add_range_button = _AddRangeButton()
         add_range_button.clicked.connect(lambda: self._add_time_range(None))
         detail.addWidget(add_range_button, alignment=Qt.AlignmentFlag.AlignLeft)
-        self._add_time_range(None)
 
         layout.addWidget(self.preset_buttons)
         layout.addWidget(self._detail_panel)
