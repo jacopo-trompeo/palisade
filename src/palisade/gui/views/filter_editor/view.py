@@ -44,12 +44,13 @@ class FilterEditorView(QWidget):
         layout.addWidget(self._name_input)
 
         layout.addWidget(SectionTitle("Schedule"))
-        self.schedule_section = ScheduleSection()
-        self.schedule_section.preset_buttons.apply_preset("always")
-        layout.addWidget(self.schedule_section)
+        self._schedule_section = ScheduleSection()
+        self._schedule_section.preset_buttons.apply_preset("always")
+        layout.addWidget(self._schedule_section)
 
         layout.addWidget(SectionTitle("Blocked Websites"))
-        layout.addWidget(WebsitesSection())
+        self._website_section = WebsitesSection()
+        layout.addWidget(self._website_section)
 
         layout.addWidget(SectionTitle("Blocked apps"))
         layout.addWidget(AppsSection())

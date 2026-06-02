@@ -357,3 +357,27 @@ QScrollBar::add-page:vertical,
 QScrollBar::sub-page:vertical {
   background: none;
 }
+
+/* --- chips --- */
+
+#Chip {
+  background-color: #ececf0;
+  border: 1px solid #d8d8dc;
+  border-radius: 14px;
+}
+
+#ChipLabel {
+  background: transparent;
+  color: #1a1c20;
+  font-size: 13px;
+}
+
+#ChipClose {
+  background-color: transparent;
+  border: none;
+    border-radius: 10px;
+}
+
+QPushButton#ChipClose:hover {
+  background-color: #dedee5;
+}
