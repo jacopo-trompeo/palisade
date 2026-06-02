@@ -8,6 +8,8 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from palisade.db.models import Filter
+
 
 class _FilterCardTitle(QLabel):
     def __init__(self, text: str):
@@ -17,9 +19,10 @@ class _FilterCardTitle(QLabel):
 
 
 class _FilterCardToggle(QCheckBox):
-    def __init__(self):
+    def __init__(self, checked: bool):
         super().__init__()
 
+        self.setChecked(checked)
         self.setObjectName("FilterCardToggle")
 
 
@@ -56,7 +59,7 @@ class _FilterCardActions(QHBoxLayout):
 
 
 class FilterCard(QFrame):
-    def __init__(self):
+    def __init__(self, filter: Filter):
         super().__init__()
 
         self.setObjectName("FilterCard")
@@ -68,18 +71,18 @@ class FilterCard(QFrame):
         top = QHBoxLayout()
         top.setSpacing(12)
 
-        name = _FilterCardTitle("Filter")
+        name = _FilterCardTitle(filter.name)
         top.addWidget(name, 1)
 
-        self.toggle = _FilterCardToggle()
+        self.toggle = _FilterCardToggle(filter.enabled)
         top.addWidget(self.toggle)
 
         outer.addLayout(top)
 
-        schedule_summary = _FilterCardScheduleSummary("Active Mon-Fri, 9am-5pm")
+        schedule_summary = _FilterCardScheduleSummary(filter.schedule.summary())
         outer.addWidget(schedule_summary)
 
-        blocked_counts = _FilterCardBlockedCounts("1 site, 2 apps")
+        blocked_counts = _FilterCardBlockedCounts(filter.summary())
         outer.addWidget(blocked_counts)
 
         actions = _FilterCardActions()

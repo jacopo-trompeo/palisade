@@ -193,3 +193,11 @@ class Filter:
             enabled=bool(r["enabled"]),
             created_at=r["created_at"],
         )
+
+    def summary(self) -> str:
+        return (
+            f"{len(self.blocked_websites)} site"
+            f"{'s' if len(self.blocked_websites) != 1 else ''} · "
+            f"{len(self.blocked_apps)} app"
+            f"{'s' if len(self.blocked_apps) != 1 else ''}"
+        )
