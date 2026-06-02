@@ -69,7 +69,15 @@ class Window(QMainWindow):
             "filter_editor": self._views.addWidget(self._filter_editor),
         }
 
-        self._home.filter_nav_requested.connect(lambda: self.navigate("filter_editor"))
+        self._home.filter_nav_requested.connect(self._open_editor)
+        self._home.edit_filter_requested.connect(
+            lambda filter_id: self._open_editor(filter_id)
+        )
+        self._filter_editor.save_requested.connect(self._home.refresh)
+
+    def _open_editor(self, filter_id: str | None = None) -> None:
+        self._filter_editor.load(filter_id)
+        self.navigate("filter_editor")
 
     def navigate(self, key: str) -> None:
         if key not in self._view_keys:

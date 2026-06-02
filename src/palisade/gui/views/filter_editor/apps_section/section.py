@@ -20,11 +20,11 @@ class AppsSection(QWidget):
         row = QHBoxLayout()
 
         self._app_input = AppInput()
-        self._app_input.returnPressed.connect(self._add_app)
+        self._app_input.returnPressed.connect(self.add_app)
         row.addWidget(self._app_input, 1)
 
         add_button = AddButton()
-        add_button.clicked.connect(self._add_app)
+        add_button.clicked.connect(self.add_app)
         row.addWidget(add_button)
 
         browse_button = BrowseButton()
@@ -37,8 +37,9 @@ class AppsSection(QWidget):
         self._app_chips_layout = FlowLayout(self._app_chips_holder, spacing=6)
         layout.addWidget(self._app_chips_holder)
 
-    def _add_app(self, app_name: str | None = None, icon: QIcon | None = None) -> None:
+    def add_app(self, app_name: str | None = None, icon: QIcon | None = None) -> None:
         raw = app_name or self._app_input.text().strip()
+
         if not raw:
             return
         if raw in self.apps:
@@ -59,9 +60,10 @@ class AppsSection(QWidget):
                 if app.exec_name in self.apps:
                     continue
                 icon = QIcon.fromTheme(app.icon) if app.icon else None
-                self._add_app(app.exec_name, icon)
+                self.add_app(app.exec_name, icon)
 
     def clear(self) -> None:
+        self._app_input.clear()
         for i in range(self._app_chips_layout.count()):
             item = self._app_chips_layout.itemAt(i)
             if item is not None and item.widget() is not None:

@@ -18,11 +18,11 @@ class WebsitesSection(QWidget):
         row = QHBoxLayout()
 
         self._website_input = WebsiteInput()
-        self._website_input.returnPressed.connect(self._add_website)
+        self._website_input.returnPressed.connect(self.add_website)
         row.addWidget(self._website_input, 1)
 
         self._add_button = AddButton()
-        self._add_button.clicked.connect(self._add_website)
+        self._add_button.clicked.connect(self.add_website)
         row.addWidget(self._add_button)
 
         layout.addLayout(row)
@@ -31,8 +31,9 @@ class WebsitesSection(QWidget):
         self._website_chips_layout = FlowLayout(self._website_chips_holder, spacing=6)
         layout.addWidget(self._website_chips_holder)
 
-    def _add_website(self) -> None:
-        raw = self._website_input.text().strip().lower()
+    def add_website(self, website_name: str | None = None) -> None:
+        raw = website_name or self._website_input.text().strip().lower()
+
         if not raw:
             return
         if not is_valid_domain(raw):
@@ -59,6 +60,7 @@ class WebsitesSection(QWidget):
         self._website_chips_layout.addWidget(chip)
 
     def clear(self) -> None:
+        self._website_input.clear()
         for i in range(self._website_chips_layout.count()):
             item = self._website_chips_layout.itemAt(i)
             if item is not None and item.widget() is not None:

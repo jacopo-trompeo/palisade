@@ -2,7 +2,6 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
 
 from palisade.db.models import TimeRange
-from palisade.gui import widgets
 from palisade.gui.views.filter_editor.schedule_section.day_picker import DayPicker
 from palisade.gui.views.filter_editor.schedule_section.preset_buttons import (
     PresetButtons,
@@ -28,7 +27,7 @@ class ScheduleSection(QWidget):
         layout.setSpacing(12)
 
         self.preset_buttons = PresetButtons()
-        self.preset_buttons.preset_changed.connect(self._set_date_time_visible)
+        self.preset_buttons.preset_changed.connect(self.set_date_time_visible)
 
         self._detail_panel = QWidget()
         detail = QVBoxLayout(self._detail_panel)
@@ -36,7 +35,7 @@ class ScheduleSection(QWidget):
         detail.setSpacing(10)
 
         self.day_picker = DayPicker()
-        self.day_picker.toggled.connect(self._sync_preset_from_state)
+        self.day_picker.toggled.connect(self.sync_preset_from_state)
 
         self._ranges_container = QVBoxLayout()
         self._ranges_container.setSpacing(6)
@@ -45,15 +44,13 @@ class ScheduleSection(QWidget):
         detail.addLayout(self._ranges_container)
 
         add_range_button = _AddRangeButton()
-        add_range_button.clicked.connect(lambda: self._add_time_range(None))
+        add_range_button.clicked.connect(lambda: self.add_time_range(None))
         detail.addWidget(add_range_button, alignment=Qt.AlignmentFlag.AlignLeft)
 
         layout.addWidget(self.preset_buttons)
         layout.addWidget(self._detail_panel)
 
-        self._add_time_range(None)
-
-    def _set_date_time_visible(self):
+    def set_date_time_visible(self):
         selected = self.preset_buttons.selected
         if selected == "always":
             self._detail_panel.setVisible(False)
@@ -65,7 +62,7 @@ class ScheduleSection(QWidget):
             elif selected == "weekends":
                 self.day_picker.set_days({5, 6})
 
-    def _sync_preset_from_state(self) -> None:
+    def sync_preset_from_state(self) -> None:
         days = self.day_picker.selected_days
         ranges = self.time_ranges
         full_day = ranges == [TimeRange("00:00", "23:59")]
@@ -76,10 +73,10 @@ class ScheduleSection(QWidget):
             matched = "weekends"
         self.preset_buttons.apply_preset(matched)
 
-    def _add_time_range(self, time_range: TimeRange | None) -> None:
+    def add_time_range(self, time_range: TimeRange | None) -> None:
         row = TimeRangeRow(time_range)
         row.removed.connect(self._remove_time_range)
-        row.changed.connect(self._sync_preset_from_state)
+        row.changed.connect(self.sync_preset_from_state)
         self._ranges_container.addWidget(row)
         self._update_range_remove_buttons()
 
@@ -87,7 +84,7 @@ class ScheduleSection(QWidget):
         self._ranges_container.removeWidget(row)
         row.deleteLater()
         self._update_range_remove_buttons()
-        self._sync_preset_from_state()
+        self.sync_preset_from_state()
 
     def _update_range_remove_buttons(self) -> None:
         rows = [
@@ -109,7 +106,6 @@ class ScheduleSection(QWidget):
             widget = item.widget() if item else None
             if item is not None and widget is not None:
                 widget.deleteLater()
-        self._add_time_range(None)
 
     @property
     def time_ranges(self) -> list[TimeRange]:

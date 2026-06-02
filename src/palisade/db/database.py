@@ -1,3 +1,4 @@
+import json
 import sqlite3
 from collections.abc import Generator
 from contextlib import contextmanager
@@ -53,10 +54,41 @@ def create_filter(f: Filter) -> None:
         )
 
 
+def update_filter(f: Filter) -> None:
+    with connect() as conn:
+        conn.execute(
+            """UPDATE filters
+            SET name = ?, schedule_json = ?, blocked_websites_json = ?,
+                blocked_apps_json = ?, enabled = ?
+            WHERE id = ?""",
+            (
+                f.name,
+                f.schedule.to_json(),
+                json.dumps(f.blocked_websites),
+                json.dumps(f.blocked_apps),
+                1 if f.enabled else 0,
+                f.id,
+            ),
+        )
+
+
+def get_filter(filter_id: str) -> Filter | None:
+    with connect() as conn:
+        row = conn.execute(
+            "SELECT * FROM filters WHERE id = ?", (filter_id,)
+        ).fetchone()
+    return Filter.from_row(row) if row else None
+
+
 def list_filters() -> list[Filter]:
     with connect() as conn:
         rows = conn.execute("SELECT * FROM filters ORDER BY created_at ASC").fetchall()
     return [Filter.from_row(r) for r in rows]
+
+
+def delete_filter(filter_id: str) -> None:
+    with connect() as conn:
+        conn.execute("DELETE FROM filters WHERE id = ?", (filter_id,))
 
 
 def get_setting(key: str, default: str | None = None) -> str | None:

@@ -73,6 +73,12 @@ QWidget {
   padding-top: 6px;
 }
 
+#EmptyStateLabel {
+  background: transparent;
+  color: #999da6;
+  font-size: 15px;
+}
+
 /* --- filter cards --- */
 
 #FilterCard {
@@ -265,6 +271,24 @@ QPushButton#LinkButton {
 QPushButton#LinkButton:hover {
   color: #8eb4ff;
   text-decoration: underline;
+}
+
+#DangerButton {
+  background-color: #d04050;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+}
+
+QPushButton#DangerButton:hover {
+  background-color: #b73643;
+}
+
+QPushButton#DangerButton:disabled {
+  background-color: #e8a8af;
+  color: #ffffff;
 }
 
 /* --- inputs --- */

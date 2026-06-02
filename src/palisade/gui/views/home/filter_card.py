@@ -1,4 +1,4 @@
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QCheckBox,
     QFrame,
@@ -41,6 +41,9 @@ class _FilterCardBlockedCounts(QLabel):
 
 
 class _FilterCardActions(QHBoxLayout):
+    delete_requested = Signal()
+    edit_requested = Signal()
+
     def __init__(self):
         super().__init__()
 
@@ -50,15 +53,21 @@ class _FilterCardActions(QHBoxLayout):
         edit_button = QPushButton("Edit")
         edit_button.setObjectName("FilterCardActionButton")
         edit_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        edit_button.clicked.connect(self.edit_requested.emit)
         self.addWidget(edit_button)
 
         delete_button = QPushButton("Delete")
         delete_button.setObjectName("FilterCardDangerButton")
         delete_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        delete_button.clicked.connect(self.delete_requested.emit)
         self.addWidget(delete_button)
 
 
 class FilterCard(QFrame):
+    delete_requested = Signal()
+    edit_requested = Signal()
+    toggle_requested = Signal(bool)
+
     def __init__(self, filter: Filter):
         super().__init__()
 
@@ -74,8 +83,9 @@ class FilterCard(QFrame):
         name = _FilterCardTitle(filter.name)
         top.addWidget(name, 1)
 
-        self.toggle = _FilterCardToggle(filter.enabled)
-        top.addWidget(self.toggle)
+        toggle = _FilterCardToggle(filter.enabled)
+        toggle.clicked.connect(lambda checked: self.toggle_requested.emit(checked))
+        top.addWidget(toggle)
 
         outer.addLayout(top)
 
@@ -86,4 +96,6 @@ class FilterCard(QFrame):
         outer.addWidget(blocked_counts)
 
         actions = _FilterCardActions()
+        actions.delete_requested.connect(self.delete_requested.emit)
+        actions.edit_requested.connect(self.edit_requested.emit)
         outer.addLayout(actions)
