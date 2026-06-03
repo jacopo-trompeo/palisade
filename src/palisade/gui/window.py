@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from palisade.config import DEV_MODE
+from palisade import config
 from palisade.gui.theme import apply_theme
 from palisade.gui.views.filter_editor import FilterEditorView
 from palisade.gui.widgets.dev_banner import DevBanner
@@ -35,7 +35,7 @@ class Window(QMainWindow):
         root_layout.setContentsMargins(0, 0, 0, 0)
         root_layout.setSpacing(0)
 
-        if DEV_MODE:
+        if config.is_dev():
             root_layout.addWidget(DevBanner())
 
         body = QWidget()
