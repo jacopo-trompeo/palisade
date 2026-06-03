@@ -40,35 +40,12 @@ class _FilterCardBlockedCounts(QLabel):
         self.setObjectName("FilterCardCounts")
 
 
-class _FilterCardActions(QHBoxLayout):
-    delete_requested = Signal()
-    edit_requested = Signal()
-
-    def __init__(self):
-        super().__init__()
-
-        self.setSpacing(8)
-        self.addStretch(1)
-
-        edit_button = QPushButton("Edit")
-        edit_button.setObjectName("FilterCardActionButton")
-        edit_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        edit_button.clicked.connect(self.edit_requested.emit)
-        self.addWidget(edit_button)
-
-        delete_button = QPushButton("Delete")
-        delete_button.setObjectName("FilterCardDangerButton")
-        delete_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        delete_button.clicked.connect(self.delete_requested.emit)
-        self.addWidget(delete_button)
-
-
 class FilterCard(QFrame):
     delete_requested = Signal()
     edit_requested = Signal()
     toggle_requested = Signal(bool)
 
-    def __init__(self, filter: Filter):
+    def __init__(self, flt: Filter):
         super().__init__()
 
         self.setObjectName("FilterCard")
@@ -80,22 +57,34 @@ class FilterCard(QFrame):
         top = QHBoxLayout()
         top.setSpacing(12)
 
-        name = _FilterCardTitle(filter.name)
+        name = _FilterCardTitle(flt.name)
         top.addWidget(name, 1)
 
-        toggle = _FilterCardToggle(filter.enabled)
-        toggle.clicked.connect(lambda checked: self.toggle_requested.emit(checked))
+        toggle = _FilterCardToggle(flt.enabled)
+        toggle.clicked.connect(self.toggle_requested.emit)
         top.addWidget(toggle)
 
         outer.addLayout(top)
 
-        schedule_summary = _FilterCardScheduleSummary(filter.schedule.summary())
-        outer.addWidget(schedule_summary)
+        outer.addWidget(_FilterCardScheduleSummary(flt.schedule.summary()))
+        outer.addWidget(_FilterCardBlockedCounts(flt.summary()))
+        outer.addLayout(self._build_actions())
 
-        blocked_counts = _FilterCardBlockedCounts(filter.summary())
-        outer.addWidget(blocked_counts)
+    def _build_actions(self) -> QHBoxLayout:
+        actions = QHBoxLayout()
+        actions.setSpacing(8)
+        actions.addStretch(1)
 
-        actions = _FilterCardActions()
-        actions.delete_requested.connect(self.delete_requested.emit)
-        actions.edit_requested.connect(self.edit_requested.emit)
-        outer.addLayout(actions)
+        edit_button = QPushButton("Edit")
+        edit_button.setObjectName("FilterCardActionButton")
+        edit_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        edit_button.clicked.connect(self.edit_requested.emit)
+        actions.addWidget(edit_button)
+
+        delete_button = QPushButton("Delete")
+        delete_button.setObjectName("FilterCardDangerButton")
+        delete_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        delete_button.clicked.connect(self.delete_requested.emit)
+        actions.addWidget(delete_button)
+
+        return actions

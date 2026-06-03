@@ -2,6 +2,7 @@ from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QFrame, QScrollArea, QSizePolicy, QVBoxLayout, QWidget
 
 from palisade.db.models import Filter
+from palisade.gui.layout_utils import iter_layout_widgets
 from palisade.gui.views.home.empty_state import EmptyState
 from palisade.gui.views.home.filter_card import FilterCard
 
@@ -36,32 +37,18 @@ class FilterCardList(QWidget):
             self._list_layout.insertWidget(0, EmptyState())
             return
 
-        for filter in filters:
-            filter_card = FilterCard(filter)
-            filter_card.setSizePolicy(
-                QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
+        for flt in filters:
+            card = FilterCard(flt)
+            card.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+            card.delete_requested.connect(
+                lambda flt=flt: self.delete_requested.emit(flt)
             )
-            filter_card.delete_requested.connect(
-                lambda filter=filter: self.delete_requested.emit(filter)
+            card.edit_requested.connect(lambda flt=flt: self.edit_requested.emit(flt))
+            card.toggle_requested.connect(
+                lambda checked, flt=flt: self.toggle_requested.emit(flt, checked)
             )
-            filter_card.edit_requested.connect(
-                lambda filter=filter: self.edit_requested.emit(filter)
-            )
-            filter_card.toggle_requested.connect(
-                lambda checked, filter=filter: self.toggle_requested.emit(
-                    filter, checked
-                )
-            )
-            self._list_layout.insertWidget(self._list_layout.count() - 1, filter_card)
+            self._list_layout.insertWidget(self._list_layout.count() - 1, card)
 
     @property
     def filter_cards(self) -> list[FilterCard]:
-        cards = []
-        for i in range(self._list_layout.count() - 1):
-            item = self._list_layout.itemAt(i)
-            if item is None:
-                continue
-            widget = item.widget()
-            if isinstance(widget, FilterCard):
-                cards.append(widget)
-        return cards
+        return iter_layout_widgets(self._list_layout, FilterCard)

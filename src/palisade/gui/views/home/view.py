@@ -40,34 +40,25 @@ class HomeView(QWidget):
         self._filter_card_list: FilterCardList | None = None
         self.refresh()
 
-    def _delete_filter(self, filter: Filter) -> None:
-        if confirm_delete(self, filter.name):
-            delete_filter(filter.id)
+    def _delete_filter(self, flt: Filter) -> None:
+        if confirm_delete(self, flt.name):
+            delete_filter(flt.id)
             self.refresh()
 
-    def _edit_filter(self, filter: Filter) -> None:
-        self.edit_filter_requested.emit(filter.id)
+    def _edit_filter(self, flt: Filter) -> None:
+        self.edit_filter_requested.emit(flt.id)
 
-    def _toggle_filter(self, filter: Filter, enabled: bool) -> None:
-        filter.enabled = enabled
-        if filter.enabled:
-            update_filter(filter)
-        else:
-            if confirm_disable(self, filter.name):
-                update_filter(filter)
+    def _toggle_filter(self, flt: Filter, enabled: bool) -> None:
+        flt.enabled = enabled
+        if flt.enabled or confirm_disable(self, flt.name):
+            update_filter(flt)
 
     def _connect_signals(self) -> None:
         if self._filter_card_list is None:
             return
-        self._filter_card_list.delete_requested.connect(
-            lambda filter: self._delete_filter(filter)
-        )
-        self._filter_card_list.edit_requested.connect(
-            lambda filter: self._edit_filter(filter)
-        )
-        self._filter_card_list.toggle_requested.connect(
-            lambda filter, checked: self._toggle_filter(filter, checked)
-        )
+        self._filter_card_list.delete_requested.connect(self._delete_filter)
+        self._filter_card_list.edit_requested.connect(self._edit_filter)
+        self._filter_card_list.toggle_requested.connect(self._toggle_filter)
 
     def refresh(self) -> None:
         if self._filter_card_list is not None:

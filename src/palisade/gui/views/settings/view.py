@@ -54,7 +54,7 @@ class SettingsView(QWidget):
 
         root.addStretch(1)
 
-    def _on_theme_changed(self, _checked: bool) -> None:
+    def _on_theme_changed(self) -> None:
         name = "light" if self._light.isChecked() else "dark"
         set_setting("theme", name)
         apply_theme(name)
