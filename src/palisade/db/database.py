@@ -3,7 +3,7 @@ import sqlite3
 from collections.abc import Generator
 from contextlib import contextmanager
 
-from palisade.config import DB_PATH
+from palisade import config
 from palisade.db.models import Filter
 
 SCHEMA = """
@@ -25,14 +25,14 @@ CREATE TABLE IF NOT EXISTS settings (
 
 
 def init_db() -> None:
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    config.db_path().parent.mkdir(parents=True, exist_ok=True)
     with connect() as conn:
         conn.executescript(SCHEMA)
 
 
 @contextmanager
 def connect() -> Generator[sqlite3.Connection]:
-    conn = sqlite3.connect(str(DB_PATH))
+    conn = sqlite3.connect(str(config.db_path()))
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
 
