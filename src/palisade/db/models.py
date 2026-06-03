@@ -3,10 +3,15 @@ import re
 import uuid
 from collections.abc import Mapping
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Literal
+from datetime import UTC, datetime
+from enum import StrEnum
+from typing import Self
 
-ScheduleType = Literal["always", "custom"]
+
+class ScheduleType(StrEnum):
+    ALWAYS = "always"
+    CUSTOM = "custom"
+
 
 _DOMAIN_REGEX = re.compile(
     r"^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)+$",
@@ -17,7 +22,7 @@ _TIME_REGEX = re.compile(r"^([01][0-9]|2[0-3]):([0-5][0-9])$")
 
 
 def _utcnow_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def _normalize_domain(s: str) -> str:
@@ -54,21 +59,24 @@ class TimeRange:
         return {"start": self.start, "end": self.end}
 
     @classmethod
-    def from_dict(cls, d: dict) -> TimeRange:
+    def from_dict(cls, d: dict) -> Self:
         return cls(start=d["start"], end=d["end"])
 
 
 @dataclass
 class Schedule:
-    type: ScheduleType = "always"
+    type: ScheduleType = ScheduleType.ALWAYS
     days: list[int] = field(default_factory=lambda: list(range(7)))
     time_ranges: list[TimeRange] = field(
         default_factory=lambda: [TimeRange("00:00", "23:59")]
     )
 
+    def __post_init__(self) -> None:
+        self.type = ScheduleType(self.type)
+
     def to_dict(self) -> dict:
         return {
-            "type": self.type,
+            "type": self.type.value,
             "days": list(self.days),
             "time_ranges": [tr.to_dict() for tr in self.time_ranges],
         }
@@ -77,19 +85,25 @@ class Schedule:
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_dict(cls, d: dict) -> Schedule:
+    def from_dict(cls, d: dict) -> Self:
+        raw_ranges = d.get("time_ranges")
+        time_ranges = (
+            [TimeRange.from_dict(tr) for tr in raw_ranges]
+            if raw_ranges is not None
+            else [TimeRange("00:00", "23:59")]
+        )
         return cls(
-            type=d.get("type", "always"),
-            days=d.get("days", list(range(7))),
-            time_ranges=[TimeRange.from_dict(tr) for tr in d.get("time_ranges", [])],
+            type=ScheduleType(d.get("type", "always")),
+            days=list(d.get("days", range(7))),
+            time_ranges=time_ranges,
         )
 
     @classmethod
-    def from_json(cls, s: str) -> Schedule:
+    def from_json(cls, s: str) -> Self:
         return cls.from_dict(json.loads(s))
 
     def summary(self) -> str:
-        if self.type == "always":
+        if self.type == ScheduleType.ALWAYS:
             return "Always"
 
         day_set = set(self.days)
@@ -134,8 +148,6 @@ class Filter:
         self.blocked_apps = list(dict.fromkeys(self.blocked_apps))
 
     def to_row(self) -> tuple:
-        now = datetime.now(timezone.utc).isoformat()
-        created = self.created_at or now
         return (
             self.id,
             self.name,
@@ -143,7 +155,7 @@ class Filter:
             json.dumps(self.blocked_websites),
             json.dumps(self.blocked_apps),
             1 if self.enabled else 0,
-            created,
+            self.created_at,
         )
 
     def to_dict(self) -> dict:
@@ -158,7 +170,7 @@ class Filter:
         }
 
     @classmethod
-    def from_dict(cls, d: dict) -> Filter:
+    def from_dict(cls, d: dict) -> Self:
         return cls(
             id=d["id"],
             name=d.get("name", ""),
@@ -170,7 +182,7 @@ class Filter:
         )
 
     @classmethod
-    def from_row(cls, row: tuple | Mapping) -> Filter:
+    def from_row(cls, row: tuple | Mapping) -> Self:
         if hasattr(row, "keys"):
             r = dict(row)
         else:
@@ -183,7 +195,7 @@ class Filter:
                 "enabled",
                 "created_at",
             )
-            r = dict(zip(row_columns, row))
+            r = dict(zip(row_columns, row, strict=True))
         return cls(
             id=r["id"],
             name=r["name"],
