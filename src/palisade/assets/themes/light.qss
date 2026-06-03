@@ -7,6 +7,10 @@ QWidget {
   font-size: 14px;
 }
 
+#ViewArea {
+  background-color: #f6f6f7;
+}
+
 /* --- dev banner --- */
 
 #DevBanner {
@@ -274,7 +278,7 @@ QPushButton#LinkButton:hover {
   text-decoration: underline;
 }
 
-QPushButton#DangerButton {
+#DangerButton {
   background-color: #d04050;
   color: #ffffff;
   border: none;
@@ -400,7 +404,7 @@ QScrollBar::sub-page:vertical {
 #ChipClose {
   background-color: transparent;
   border: none;
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 QPushButton#ChipClose:hover {
@@ -420,13 +424,13 @@ QDialog {
   padding: 4px;
 }
 
-QListWidget#AppPickerList::item {
+#AppPickerList::item {
   padding: 8px 10px;
   border-radius: 6px;
   color: #1a1c20;
 }
 
-QListWidget#AppPickerList::item:selected {
+#AppPickerList::item:selected {
   background-color: #c8d4ee;
   color: #1a1c20;
 }

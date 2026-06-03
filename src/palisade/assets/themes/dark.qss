@@ -7,6 +7,10 @@ QWidget {
   font-size: 14px;
 }
 
+#ViewArea {
+  background-color: #131316;
+}
+
 /* --- dev banner --- */
 
 #DevBanner {
@@ -268,6 +272,7 @@ QPushButton#LinkButton {
   padding: 4px 6px;
   font-weight: 600;
 }
+
 QPushButton#LinkButton:hover {
   color: #8eb4ff;
   text-decoration: underline;
@@ -422,6 +427,7 @@ QDialog {
 #AppPickerList::item {
   padding: 8px 10px;
   border-radius: 6px;
+  color: #e6e9ef;
 }
 
 #AppPickerList::item:selected {
