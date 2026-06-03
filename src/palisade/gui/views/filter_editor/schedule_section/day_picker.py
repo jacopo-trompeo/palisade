@@ -1,7 +1,7 @@
-from typing import cast
-
 from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtWidgets import QHBoxLayout, QPushButton, QWidget
+
+from palisade.gui.layout_utils import iter_layout_widgets
 
 
 class _DayButton(QPushButton):
@@ -51,11 +51,7 @@ class DayPicker(QWidget):
 
     @property
     def _buttons(self) -> list[_DayButton]:
-        layout = cast(QHBoxLayout, self.layout())
-        return [
-            widget
-            for i in range(layout.count())
-            if (item := layout.itemAt(i)) is not None
-            and (widget := item.widget()) is not None
-            and isinstance(widget, _DayButton)
-        ]
+        layout = self.layout()
+        if layout is None:
+            return []
+        return iter_layout_widgets(layout, _DayButton)

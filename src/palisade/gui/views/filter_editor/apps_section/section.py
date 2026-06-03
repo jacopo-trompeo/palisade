@@ -1,6 +1,7 @@
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget
 
+from palisade.gui.layout_utils import clear_layout, iter_layout_widgets
 from palisade.gui.views.filter_editor.apps_section.add_button import AddButton
 from palisade.gui.views.filter_editor.apps_section.app_input import AppInput
 from palisade.gui.views.filter_editor.apps_section.browse_button import BrowseButton
@@ -19,12 +20,12 @@ class AppsSection(QWidget):
 
         row = QHBoxLayout()
 
-        self._app_input = AppInput()
-        self._app_input.returnPressed.connect(self.add_app)
-        row.addWidget(self._app_input, 1)
+        self._input = AppInput()
+        self._input.returnPressed.connect(self._add_from_input)
+        row.addWidget(self._input, 1)
 
         add_button = AddButton()
-        add_button.clicked.connect(self.add_app)
+        add_button.clicked.connect(self._add_from_input)
         row.addWidget(add_button)
 
         browse_button = BrowseButton()
@@ -33,47 +34,39 @@ class AppsSection(QWidget):
 
         layout.addLayout(row)
 
-        self._app_chips_holder = QWidget()
-        self._app_chips_layout = FlowLayout(self._app_chips_holder, spacing=6)
-        layout.addWidget(self._app_chips_holder)
+        self._chips_holder = QWidget()
+        self._chips_layout = FlowLayout(self._chips_holder, spacing=6)
+        layout.addWidget(self._chips_holder)
 
-    def add_app(self, app_name: str | None = None, icon: QIcon | None = None) -> None:
-        raw = app_name or self._app_input.text().strip()
+    def value(self) -> list[str]:
+        return [chip.value for chip in iter_layout_widgets(self._chips_layout, Chip)]
 
+    def set_value(self, apps: list[str]) -> None:
+        clear_layout(self._chips_layout)
+        self._input.clear()
+        for app in apps:
+            self._add_chip(app)
+
+    def _add_from_input(self) -> None:
+        raw = self._input.text().strip()
         if not raw:
             return
-        if raw in self.apps:
-            self._app_input.clear()
-            return
-        self._add_app_chip(raw, icon)
-        self._app_input.clear()
+        self._add(raw)
+        self._input.clear()
 
-    def _add_app_chip(self, app_name: str, icon: QIcon | None = None) -> None:
+    def _add(self, app_name: str, icon: QIcon | None = None) -> None:
+        if app_name in self.value():
+            return
+        self._add_chip(app_name, icon)
+
+    def _add_chip(self, app_name: str, icon: QIcon | None = None) -> None:
         chip = Chip(app_name, icon=icon)
-        chip.removed.connect(lambda value: remove_chip(self._app_chips_layout, value))
-        self._app_chips_layout.addWidget(chip)
+        chip.removed.connect(lambda value: remove_chip(self._chips_layout, value))
+        self._chips_layout.addWidget(chip)
 
     def _open_app_picker(self) -> None:
         dlg = AppPickerDialog(self)
         if dlg.exec():
             for app in dlg.picked:
-                if app.exec_name in self.apps:
-                    continue
                 icon = QIcon.fromTheme(app.icon) if app.icon else None
-                self.add_app(app.exec_name, icon)
-
-    def clear(self) -> None:
-        self._app_input.clear()
-        for i in range(self._app_chips_layout.count()):
-            item = self._app_chips_layout.itemAt(i)
-            if item is not None and item.widget() is not None:
-                item.widget().deleteLater()
-
-    @property
-    def apps(self) -> list[str]:
-        return [
-            widget.value
-            for i in range(self._app_chips_layout.count())
-            if (item := self._app_chips_layout.itemAt(i)) is not None
-            and (widget := item.widget()) is not None
-        ]
+                self._add(app.exec_name, icon)

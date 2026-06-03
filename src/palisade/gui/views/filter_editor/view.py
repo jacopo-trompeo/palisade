@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (
 )
 
 from palisade.db.database import create_filter, get_filter, update_filter
-from palisade.db.models import Filter, Schedule
+from palisade.db.models import Filter, ScheduleType
 from palisade.gui.views.filter_editor.action_section import ActionSection
 from palisade.gui.views.filter_editor.apps_section import AppsSection
 from palisade.gui.views.filter_editor.schedule_section import ScheduleSection
@@ -29,7 +29,6 @@ class FilterEditorView(QWidget):
         root.setSpacing(0)
 
         body = QWidget()
-
         root.addWidget(body)
 
         layout = QVBoxLayout(body)
@@ -47,17 +46,16 @@ class FilterEditorView(QWidget):
         layout.addWidget(self._name_input)
 
         layout.addWidget(SectionTitle("Schedule"))
-        self._schedule_section = ScheduleSection()
-        self._schedule_section.preset_buttons.apply_preset("always")
-        layout.addWidget(self._schedule_section)
+        self._schedule = ScheduleSection()
+        layout.addWidget(self._schedule)
 
         layout.addWidget(SectionTitle("Blocked Websites"))
-        self._website_section = WebsitesSection()
-        layout.addWidget(self._website_section)
+        self._websites = WebsitesSection()
+        layout.addWidget(self._websites)
 
         layout.addWidget(SectionTitle("Blocked apps"))
-        self._apps_section = AppsSection()
-        layout.addWidget(self._apps_section)
+        self._apps = AppsSection()
+        layout.addWidget(self._apps)
 
         layout.addSpacing(8)
 
@@ -68,95 +66,68 @@ class FilterEditorView(QWidget):
 
         layout.addStretch(1)
 
-    def _on_cancel(self):
+    def load(self, filter_id: str | None) -> None:
+        self._editing_id = filter_id
+        if filter_id is None:
+            self._title_label.setText("Add Filter")
+            self._set_value(Filter())
+            return
+
+        flt = get_filter(filter_id)
+        if flt is None:
+            self._main_window.navigate("home")
+            return
+        self._title_label.setText("Edit Filter")
+        self._set_value(flt)
+
+    def _set_value(self, flt: Filter) -> None:
+        self._name_input.setText(flt.name)
+        self._schedule.set_value(flt.schedule)
+        self._websites.set_value(flt.blocked_websites)
+        self._apps.set_value(flt.blocked_apps)
+
+    def _on_cancel(self) -> None:
         self._main_window.navigate("home")
 
-    def _on_save(self):
+    def _on_save(self) -> None:
         name = self._name_input.text().strip()
         if not name:
             QMessageBox.warning(self, "Name required", "Please give the filter a name.")
             return
 
-        selected_preset = self._schedule_section.preset_buttons.selected
-        if selected_preset == "always":
-            schedule = Schedule(type="always")
-        else:
-            days = self._schedule_section.day_picker.selected_days
-            if not days:
+        schedule = self._schedule.value()
+        if schedule.type == ScheduleType.CUSTOM:
+            if not schedule.days:
                 QMessageBox.warning(self, "No days selected", "Pick at least one day.")
                 return
-            ranges = self._schedule_section.time_ranges
-            if not ranges:
+            if not schedule.time_ranges:
                 QMessageBox.warning(
                     self, "No time range", "Add at least one time range."
                 )
                 return
-            schedule = Schedule(type="custom", days=list(days), time_ranges=ranges)
 
-        websites = self._website_section.websites
-        apps = self._apps_section.apps
+        websites = self._websites.value()
+        apps = self._apps.value()
 
         if self._editing_id is None:
-            filter = Filter(
+            flt = Filter(
                 name=name,
                 schedule=schedule,
                 blocked_websites=websites,
                 blocked_apps=apps,
                 enabled=True,
             )
-            create_filter(filter)
+            create_filter(flt)
         else:
-            filter = get_filter(self._editing_id)
-            if filter is None:
+            flt = get_filter(self._editing_id)
+            if flt is None:
                 self._main_window.navigate("home")
                 return
-            filter.name = name
-            filter.schedule = schedule
-            filter.blocked_websites = websites
-            filter.blocked_apps = apps
-            update_filter(filter)
+            flt.name = name
+            flt.schedule = schedule
+            flt.blocked_websites = websites
+            flt.blocked_apps = apps
+            update_filter(flt)
 
-        self._clear_form()
         self._main_window.navigate("home")
         self.save_requested.emit()
-
-    def _clear_form(self):
-        self._name_input.clear()
-        self._schedule_section.clear()
-        self._website_section.clear()
-        self._apps_section.clear()
-
-    def _populate_from(self, filter: Filter) -> None:
-        self._name_input.setText(filter.name)
-
-        schedule = filter.schedule
-        if schedule.type == "always":
-            self._schedule_section.preset_buttons.apply_preset("always")
-        else:
-            self._schedule_section.day_picker.set_days(set(schedule.days))
-            for time_range in schedule.time_ranges:
-                self._schedule_section.add_time_range(time_range)
-            if not schedule.time_ranges:
-                self._schedule_section.add_time_range(None)
-            self._schedule_section.set_date_time_visible()
-            self._schedule_section.sync_preset_from_state()
-
-        for website in filter.blocked_websites:
-            self._website_section.add_website(website)
-        for app in filter.blocked_apps:
-            self._apps_section.add_app(app)
-
-    def load(self, filter_id: str | None) -> None:
-        self._editing_id = filter_id
-        self._clear_form()
-
-        if filter_id is None:
-            self._title_label.setText("Add Filter")
-            self._schedule_section.add_time_range(None)
-        else:
-            f = get_filter(filter_id)
-            if f is None:
-                self._main_window.navigate("home")
-                return
-            self._title_label.setText("Edit Filter")
-            self._populate_from(f)

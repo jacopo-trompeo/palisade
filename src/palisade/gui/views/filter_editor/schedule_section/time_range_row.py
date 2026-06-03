@@ -17,7 +17,7 @@ def _normalize_time(s: str) -> str:
         h = max(0, min(23, int(h_str)))
         m = max(0, min(59, int(m_str)))
         return f"{h:02d}:{m:02d}"
-    except ValueError, IndexError:
+    except (ValueError, IndexError):
         return "00:00"
 
 
