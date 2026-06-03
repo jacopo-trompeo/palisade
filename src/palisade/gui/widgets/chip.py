@@ -3,13 +3,12 @@ from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QLayout, QPushButton
 
+from palisade.gui.layout_utils import iter_layout_widgets
+
 
 def _build_icon(icon: QIcon | QPixmap) -> QLabel:
     label = QLabel()
-    if isinstance(icon, QIcon):
-        pix = icon.pixmap(QSize(16, 16))
-    else:
-        pix = icon
+    pix = icon.pixmap(QSize(16, 16)) if isinstance(icon, QIcon) else icon
     label.setPixmap(pix)
     return label
 
@@ -57,10 +56,8 @@ class Chip(QFrame):
 
 
 def remove_chip(layout: QLayout, value: str) -> None:
-    for i in range(layout.count()):
-        item = layout.itemAt(i)
-        widget = item.widget() if item else None
-        if isinstance(widget, Chip) and widget.value == value:
-            layout.takeAt(i)
-            widget.deleteLater()
+    for chip in iter_layout_widgets(layout, Chip):
+        if chip.value == value:
+            layout.removeWidget(chip)
+            chip.deleteLater()
             return
