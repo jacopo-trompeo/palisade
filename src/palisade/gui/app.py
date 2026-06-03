@@ -3,11 +3,14 @@ import sys
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
-from palisade.config import DEV_MODE
+from palisade import config
 
 
-def run() -> int:
-    if DEV_MODE:
+def run(dev: bool = False) -> int:
+    config.configure(dev)
+    config.setup_logging(dev)
+
+    if dev:
         from palisade.db.database import init_db
 
         init_db()
