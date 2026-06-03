@@ -1,8 +1,11 @@
+import logging
 from pathlib import Path
 
 from PySide6.QtWidgets import QApplication
 
 from palisade.dbi import get_setting
+
+logger = logging.getLogger(__name__)
 
 THEMES_DIR = Path(__file__).parent.parent / "assets" / "themes"
 
@@ -10,7 +13,8 @@ THEMES_DIR = Path(__file__).parent.parent / "assets" / "themes"
 def current_theme() -> str:
     try:
         val = (get_setting("theme") or "dark").strip().lower()
-    except Exception:
+    except Exception as exc:
+        logger.warning("could not read theme setting, defaulting to dark: %s", exc)
         val = "dark"
     return "light" if val == "light" else "dark"
 
