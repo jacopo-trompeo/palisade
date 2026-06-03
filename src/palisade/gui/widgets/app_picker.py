@@ -127,7 +127,6 @@ class AppPickerDialog(QDialog):
     def __init__(self, parent: QWidget | None = None):
         super().__init__(parent)
 
-        self.setObjectName("AppPickerDialog")
         self.setWindowTitle("Browse installed apps")
         self.setModal(True)
         self.resize(520, 540)
