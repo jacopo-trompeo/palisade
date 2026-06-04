@@ -60,7 +60,7 @@ def _ping_daemon_once() -> bool:
         finally:
             s.close()
         return b'"pong"' in data
-    except FileNotFoundError, ConnectionRefusedError, OSError, _socket.timeout:
+    except (FileNotFoundError, ConnectionRefusedError, OSError, TimeoutError):
         return False
 
 

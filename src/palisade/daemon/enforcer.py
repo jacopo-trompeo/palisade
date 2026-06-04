@@ -1,4 +1,5 @@
 import asyncio
+import contextlib
 import logging
 import os
 import signal
@@ -79,7 +80,7 @@ def _flush_dns_cache() -> None:
             result = subprocess.run(cmd, capture_output=True, timeout=5, check=False)
             if result.returncode == 0:
                 return
-        except FileNotFoundError, subprocess.TimeoutExpired:
+        except (FileNotFoundError, subprocess.TimeoutExpired):
             continue
 
 
@@ -136,7 +137,7 @@ def find_blocked_processes(apps: set[str]) -> list[tuple[int, str, str]]:
                 if _process_matches(name, app):
                     hits.append((proc.info["pid"], name, app))
                     break
-        except psutil.NoSuchProcess, psutil.AccessDenied:
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
             continue
 
     return hits
@@ -165,7 +166,7 @@ async def enforce_processes(
 async def _kill_process(pid: int, name: str) -> None:
     try:
         os.kill(pid, signal.SIGTERM)
-    except ProcessLookupError, PermissionError:
+    except (ProcessLookupError, PermissionError):
         return
 
     await asyncio.sleep(2)
@@ -173,18 +174,16 @@ async def _kill_process(pid: int, name: str) -> None:
     try:
         os.kill(pid, 0)
         os.kill(pid, signal.SIGKILL)
-    except ProcessLookupError, PermissionError:
+    except (ProcessLookupError, PermissionError):
         return
 
 
 def notify_user(title: str, body: str) -> None:
     logger.debug("%s - %s", title, body)
 
-    try:
+    with contextlib.suppress(FileNotFoundError):
         subprocess.Popen(
             ["notify-send", "-a", "Palisade", title, body],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
         )
-    except FileNotFoundError:
-        pass
