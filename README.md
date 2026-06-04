@@ -54,9 +54,6 @@ uv run ruff format .                # format
 uv run pyright                      # type check
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint, format-check, type-check, and tests on every push
-and pull request.
-
 ## Tech stack
 
 - Python 3.14 
