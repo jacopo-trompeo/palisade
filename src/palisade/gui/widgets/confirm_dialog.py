@@ -29,7 +29,7 @@ class ConfirmDialog(QDialog):
         self.setWindowTitle(title)
         self.setModal(True)
         self.setMinimumWidth(440)
-        self._expected = expected_word.strip().lower()
+        self._expected = expected_word.strip()
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(24, 24, 24, 20)
