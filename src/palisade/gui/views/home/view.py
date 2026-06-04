@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from palisade import ipc
 from palisade.db.database import delete_filter, list_filters, update_filter
 from palisade.db.models import Filter
 from palisade.gui.views.home.filter_card_list import FilterCardList
@@ -46,6 +47,7 @@ class HomeView(QWidget):
     def _delete_filter(self, flt: Filter) -> None:
         if confirm_delete(self, flt.name):
             delete_filter(flt.id)
+            ipc.notify({"type": "filters_changed"})
             self.refresh()
 
     def _edit_filter(self, flt: Filter) -> None:
@@ -55,6 +57,7 @@ class HomeView(QWidget):
         flt.enabled = enabled
         if flt.enabled or confirm_disable(self, flt.name):
             update_filter(flt)
+            ipc.notify({"type": "filters_changed"})
 
     def _connect_signals(self) -> None:
         if self._filter_card_list is None:
