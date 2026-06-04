@@ -145,7 +145,6 @@ def run(dev: bool = False) -> int:
 
     app.setApplicationName("Palisade")
     app.setApplicationDisplayName("Palisade")
-    app.setQuitOnLastWindowClosed(False)
 
     icon = QIcon.fromTheme("system-lock-screen")
     if icon.isNull():
