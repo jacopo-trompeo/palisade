@@ -434,3 +434,49 @@ QDialog {
   background-color: #2a3147;
   color: #e6e9ef;
 }
+
+/* --- edit lock banner --- */
+
+#EditLockBanner {
+  background-color: #252a3a;
+  border: 1px solid #353b52;
+  border-radius: 10px;
+}
+
+#EditLockLabel {
+  background: transparent;
+  color: #c8ccd4;
+  font-size: 13px;
+}
+
+#EditLockBar {
+  background-color: #1a1c20;
+  border: none;
+  border-radius: 3px;
+}
+
+#EditLockBar::chunk {
+  background-color: #6366f1;
+  border-radius: 3px;
+}
+
+/* --- settings --- */
+
+#SettingsHelpText {
+  background: transparent;
+  color: #999da6;
+  font-size: 13px;
+}
+
+#DurationInput {
+  background-color: #1e2028;
+  border: 1px solid #2b2b32;
+  border-radius: 6px;
+  color: #ededee;
+  padding: 6px 10px;
+  selection-background-color: #6366f1;
+}
+
+#DurationInput:focus {
+  border-color: #6366f1;
+}
