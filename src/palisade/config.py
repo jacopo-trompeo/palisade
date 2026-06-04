@@ -2,8 +2,14 @@ import logging
 from dataclasses import dataclass
 from pathlib import Path
 
+EDIT_LOCK_SECONDS = 15
+PROCESS_POLL_INTERVAL_SEC = 5
+
 HOSTS_MARKER_START = "# === PALISADE START ==="
 HOSTS_MARKER_END = "# === PALISADE END ==="
+
+UNIT_FILE_PATH = Path("/etc/systemd/system/palisade-daemon.service")
+SYSTEMD_UNIT_NAME = "palisade-daemon"
 
 
 @dataclass(frozen=True)
