@@ -54,10 +54,12 @@ class HomeView(QWidget):
         self.edit_filter_requested.emit(flt.id)
 
     def _toggle_filter(self, flt: Filter, enabled: bool) -> None:
+        if not enabled and not confirm_disable(self, flt.name):
+            self.refresh()
+            return
         flt.enabled = enabled
-        if flt.enabled or confirm_disable(self, flt.name):
-            update_filter(flt)
-            ipc.notify({"type": "filters_changed"})
+        update_filter(flt)
+        ipc.notify({"type": "filters_changed"})
 
     def _connect_signals(self) -> None:
         if self._filter_card_list is None:

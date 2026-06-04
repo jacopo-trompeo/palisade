@@ -62,7 +62,7 @@ class FilterCard(QFrame):
         top.addWidget(name, 1)
 
         toggle = _FilterCardToggle(flt.enabled)
-        toggle.clicked.connect(self.toggle_requested.emit)
+        toggle.clicked.connect(lambda checked: self.toggle_requested.emit(checked))
         top.addWidget(toggle)
 
         outer.addLayout(top)
