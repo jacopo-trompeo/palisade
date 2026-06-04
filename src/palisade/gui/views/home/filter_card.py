@@ -1,4 +1,5 @@
-from PySide6.QtCore import Qt, Signal
+import qtawesome as qta
+from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtWidgets import (
     QCheckBox,
     QFrame,
@@ -75,14 +76,18 @@ class FilterCard(QFrame):
         actions.setSpacing(8)
         actions.addStretch(1)
 
-        edit_button = QPushButton("Edit")
+        edit_button = QPushButton("  Edit")
         edit_button.setObjectName("FilterCardActionButton")
+        edit_button.setIcon(qta.icon("fa6s.pen", color="#87878f"))
+        edit_button.setIconSize(QSize(14, 14))
         edit_button.setCursor(Qt.CursorShape.PointingHandCursor)
         edit_button.clicked.connect(self.edit_requested.emit)
         actions.addWidget(edit_button)
 
-        delete_button = QPushButton("Delete")
+        delete_button = QPushButton("  Delete")
         delete_button.setObjectName("FilterCardDangerButton")
+        delete_button.setIcon(qta.icon("fa6s.trash", color="#e06060"))
+        delete_button.setIconSize(QSize(14, 14))
         delete_button.setCursor(Qt.CursorShape.PointingHandCursor)
         delete_button.clicked.connect(self.delete_requested.emit)
         actions.addWidget(delete_button)

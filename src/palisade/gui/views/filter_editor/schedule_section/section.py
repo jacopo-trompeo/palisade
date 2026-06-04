@@ -1,3 +1,4 @@
+import qtawesome as qta
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QPushButton, QVBoxLayout, QWidget
 
@@ -19,8 +20,9 @@ _FULL_DAY = TimeRange("00:00", "23:59")
 
 class _AddRangeButton(QPushButton):
     def __init__(self):
-        super().__init__("Add time range")
+        super().__init__("  Add time range")
         self.setObjectName("LinkButton")
+        self.setIcon(qta.icon("fa6s.plus", color="#6366f1"))
         self.setCursor(Qt.CursorShape.PointingHandCursor)
 
 

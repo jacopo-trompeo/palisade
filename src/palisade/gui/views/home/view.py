@@ -1,4 +1,5 @@
-from PySide6.QtCore import Signal
+import qtawesome as qta
+from PySide6.QtCore import QSize, Signal
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
@@ -32,7 +33,9 @@ class HomeView(QWidget):
 
         header.addStretch(1)
 
-        add_button = PrimaryButton("Add Filter")
+        add_button = PrimaryButton("  Add Filter")
+        add_button.setIcon(qta.icon("fa6s.plus", color="#ffffff"))
+        add_button.setIconSize(QSize(16, 16))
         add_button.clicked.connect(self.filter_nav_requested.emit)
         header.addWidget(add_button)
         self._root.addLayout(header)

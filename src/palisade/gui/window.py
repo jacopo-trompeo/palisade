@@ -7,7 +7,7 @@ from PySide6.QtWidgets import (
 )
 
 from palisade import config
-from palisade.gui.theme import apply_theme
+from palisade.gui.theme import apply_theme, current_theme
 from palisade.gui.views.filter_editor import FilterEditorView
 from palisade.gui.widgets.dev_banner import DevBanner
 from palisade.gui.widgets.sidebar import Sidebar
@@ -25,6 +25,7 @@ class Window(QMainWindow):
         self._build_layout()
         self._build_views()
 
+        self._sidebar.update_icons_for_theme(current_theme())
         self.navigate("home")
 
     def _build_layout(self) -> None:
@@ -74,6 +75,7 @@ class Window(QMainWindow):
             lambda filter_id: self._open_editor(filter_id)
         )
         self._filter_editor.save_requested.connect(self._home.refresh)
+        self._settings.theme_changed.connect(self._sidebar.update_icons_for_theme)
 
     def _open_editor(self, filter_id: str | None = None) -> None:
         self._filter_editor.load(filter_id)
