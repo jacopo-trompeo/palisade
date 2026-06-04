@@ -1,4 +1,5 @@
 import asyncio
+import contextlib
 import logging
 from datetime import datetime
 
@@ -64,10 +65,8 @@ async def _schedule_loop() -> None:
             nt.isoformat(timespec="seconds"),
             int(wait_s),
         )
-        try:
+        with contextlib.suppress(asyncio.TimeoutError):
             await asyncio.wait_for(_changed_event.wait(), timeout=wait_s)
-        except asyncio.TimeoutError:
-            pass
         _changed_event.clear()
 
 
@@ -164,10 +163,8 @@ async def _amain() -> int:
         async with server:
             await asyncio.gather(schedule_task, monitor_task)
     finally:
-        try:
+        with contextlib.suppress(Exception):
             write_hosts(set())
-        except Exception:
-            pass
     return 0
 
 

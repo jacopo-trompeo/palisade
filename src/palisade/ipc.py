@@ -1,4 +1,5 @@
 import asyncio
+import contextlib
 import json
 import logging
 import os
@@ -17,7 +18,7 @@ def notify(message: dict, timeout: float = 1.0) -> dict | None:
         s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         s.settimeout(timeout)
         s.connect(str(config.socket_path()))
-    except (FileNotFoundError, ConnectionRefusedError, socket.timeout, OSError):
+    except (TimeoutError, FileNotFoundError, ConnectionRefusedError, OSError):
         return None
     try:
         s.sendall((json.dumps(message) + "\n").encode())
@@ -30,7 +31,7 @@ def notify(message: dict, timeout: float = 1.0) -> dict | None:
         if not data:
             return None
         return json.loads(data.split(b"\n", 1)[0].decode())
-    except (socket.timeout, OSError, json.JSONDecodeError):
+    except (TimeoutError, OSError, json.JSONDecodeError):
         return None
     finally:
         s.close()
@@ -64,14 +65,10 @@ async def serve(handler: Handler) -> asyncio.AbstractServer:
                 await writer.drain()
         finally:
             writer.close()
-            try:
+            with contextlib.suppress(Exception):
                 await writer.wait_closed()
-            except Exception:
-                pass
 
     server = await asyncio.start_unix_server(on_client, path=str(sock_path))
-    try:
+    with contextlib.suppress(OSError):
         os.chmod(sock_path, 0o666)
-    except OSError:
-        pass
     return server

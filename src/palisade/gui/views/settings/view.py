@@ -23,6 +23,7 @@ from palisade.gui.widgets.section_title import SectionTitle
 
 class SettingsView(QWidget):
     theme_changed = Signal(str)
+
     def __init__(self):
         super().__init__()
 
