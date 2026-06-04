@@ -19,7 +19,7 @@ class EmptyState(QWidget):
         icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(icon)
 
-        msg = QLabel("No filters yet — add one to get started.")
+        msg = QLabel("No filters yet - add one to get started.")
         msg.setObjectName("EmptyStateLabel")
         msg.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(msg)

@@ -50,7 +50,7 @@ class WebsitesSection(QWidget):
                 self,
                 "Invalid domain",
                 f"'{raw}' doesn't look like a domain. "
-                "Example: youtube.com — no http://, no paths.",
+                "Example: youtube.com - no http://, no paths.",
             )
             return
         if raw in self.value():
