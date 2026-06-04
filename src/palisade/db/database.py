@@ -106,3 +106,22 @@ def set_setting(key: str, value: str) -> None:
             ON CONFLICT(key) DO UPDATE SET value = excluded.value""",
             (key, value),
         )
+
+
+EDIT_LOCK_SECONDS_MIN = 5
+EDIT_LOCK_SECONDS_MAX = 300
+
+
+def get_edit_lock_seconds() -> int:
+    raw = get_setting("edit_lock_seconds")
+    if raw is None:
+        return config.EDIT_LOCK_SECONDS
+    try:
+        return max(EDIT_LOCK_SECONDS_MIN, min(EDIT_LOCK_SECONDS_MAX, int(raw)))
+    except ValueError:
+        return config.EDIT_LOCK_SECONDS
+
+
+def set_edit_lock_seconds(seconds: int) -> None:
+    clamped = max(EDIT_LOCK_SECONDS_MIN, min(EDIT_LOCK_SECONDS_MAX, int(seconds)))
+    set_setting("edit_lock_seconds", str(clamped))
