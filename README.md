@@ -28,23 +28,6 @@ uv run palisade         # run normally
 uv run palisade --help  # see options (--dev, --version)
 ```
 
-## Architecture
-
-Palisade is split into clear layers:
-
-| Layer | Location | Responsibility |
-|---|---|---|
-| **Domain model** | `palisade/db/models.py` | `Filter` / `Schedule` / `TimeRange` dataclasses with validation and JSON round-tripping |
-| **Data access** | `palisade/db/database.py` | SQLite persistence (parameterized queries, context-managed connections) |
-| **Backend seam** | `palisade/dbi.py`, `palisade/ipc.py` | Routes reads/writes either to the local DB (dev) or to the privileged daemon over a unix socket (prod) |
-| **GUI** | `palisade/gui/` | PySide6 views and reusable widgets |
-
-The GUI follows a **"closed component"** convention: widgets keep their children private and
-expose data through `value()` / `set_value()`  and events through Qt
-signals, rather than reaching into each other's internals. Each editor section
-(`ScheduleSection`, `WebsitesSection`, `AppsSection`) maps cleanly to and from part of a
-`Filter`.
-
 ## Development
 
 ```bash
@@ -53,9 +36,6 @@ uv run ruff check .                 # lint
 uv run ruff format .                # format
 uv run pyright                      # type check
 ```
-
-CI (`.github/workflows/ci.yml`) runs lint, format-check, type-check, and tests on every push
-and pull request.
 
 ## Tech stack
 
