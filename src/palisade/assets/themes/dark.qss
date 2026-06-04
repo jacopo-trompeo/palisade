@@ -1,38 +1,32 @@
-/* --- root --- */
-
 QMainWindow,
 QWidget {
-  background-color: #131316;
-  color: #ededee;
+  background-color: #191919;
+  color: #e5e5e5;
   font-size: 14px;
 }
 
 #ViewArea {
-  background-color: #131316;
+  background-color: #191919;
 }
 
-/* --- dev banner --- */
-
 #DevBanner {
-  background-color: #f2c14e;
+  background-color: #332b14;
 }
 
 #DevBannerLabel {
   background: transparent;
-  color: #131316;
+  color: #c9a84c;
   font-weight: 600;
 }
 
-/* --- sidebar --- */
-
 #Sidebar {
-  background-color: #0e0e11;
-  border-right: 1px solid #232328;
+  background-color: #111111;
+  border-right: 1px solid #2c2c2c;
 }
 
 #SidebarTitle {
   background: transparent;
-  color: #ededee;
+  color: #e5e5e5;
   font-size: 22px;
   font-weight: 700;
   padding-left: 4px;
@@ -40,36 +34,34 @@ QWidget {
 
 #SidebarButton {
   background-color: transparent;
-  color: #b4b4bd;
+  color: #808080;
   text-align: left;
   padding: 8px 10px;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 14px;
 }
 
 #SidebarButton:hover {
-  background-color: #25252c;
-  color: #ededee;
+  background-color: #262626;
+  color: #e5e5e5;
 }
 
 #SidebarButton:checked {
-  background-color: #20203b;
-  color: #ededee;
+  background-color: #1c2836;
+  color: #e5e5e5;
 }
-
-/* --- titles --- */
 
 #PageTitle {
   background: transparent;
-  color: #ededee;
+  color: #e5e5e5;
   font-size: 26px;
   font-weight: 700;
 }
 
 #SectionTitle {
   background: transparent;
-  color: #87878f;
+  color: #808080;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -79,60 +71,58 @@ QWidget {
 
 #EmptyStateLabel {
   background: transparent;
-  color: #999da6;
+  color: #555555;
   font-size: 15px;
 }
 
-/* --- filter cards --- */
-
 #FilterCard {
-  background-color: #1b1b20;
-  border: 1px solid #2b2b32;
-  border-radius: 8px;
+  background-color: #1e1e1e;
+  border: 1px solid #2c2c2c;
+  border-radius: 5px;
 }
 
 #FilterCardName {
   background: transparent;
-  color: #ededee;
+  color: #e5e5e5;
   font-size: 17px;
   font-weight: 600;
 }
 
 #FilterCardSchedule {
   background: transparent;
-  color: #87878f;
+  color: #808080;
   font-size: 13px;
 }
 
 #FilterCardCounts {
   background: transparent;
-  color: #87878f;
+  color: #808080;
   font-size: 13px;
 }
 
 #FilterCardActionButton {
   background-color: transparent;
-  color: #b4b4bd;
-  border: 1px solid #2b2b32;
-  border-radius: 6px;
+  color: #808080;
+  border: 1px solid #2c2c2c;
+  border-radius: 4px;
   padding: 6px 12px;
 }
 
 #FilterCardActionButton:hover {
-  background-color: #25252c;
-  color: #ededee;
+  background-color: #262626;
+  color: #e5e5e5;
 }
 
 #FilterCardDangerButton {
   background-color: transparent;
-  color: #f06b6b;
-  border: 1px solid #2c1d1f;
-  border-radius: 6px;
+  color: #c44;
+  border: 1px solid #2c2c2c;
+  border-radius: 4px;
   padding: 6px 12px;
 }
 
 #FilterCardDangerButton:hover {
-  background-color: #2c1d1f;
+  background-color: #2a1616;
 }
 
 #FilterCardToggle {
@@ -147,108 +137,106 @@ QWidget {
   width: 40px;
   height: 22px;
   border-radius: 11px;
-  background-color: #3c3c44;
+  background-color: #383838;
   border: none;
   margin: 0;
 }
 
 #FilterCardToggle::indicator:hover {
-  background-color: #494952;
+  background-color: #444444;
 }
 
 #FilterCardToggle::indicator:checked {
-  background-color: #6366f1;
+  background-color: #5a8ec6;
 }
 
 #FilterCardToggle::indicator:checked:hover {
-  background-color: #7d80f4;
+  background-color: #6b9dd4;
 }
 
-/* --- buttons --- */
-
 #PrimaryButton {
-  background-color: #6366f1;
+  background-color: #5a8ec6;
   color: #ffffff;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 8px 16px;
   font-weight: 600;
 }
 
 #PrimaryButton:hover {
-  background-color: #7d80f4;
+  background-color: #6b9dd4;
 }
 
 #PrimaryButton:disabled {
-  background-color: #25252c;
-  color: #5a5a62;
+  background-color: #262626;
+  color: #555555;
 }
 
 #SecondaryButton {
   background-color: transparent;
-  color: #ededee;
-  border: 1px solid #2b2b32;
-  border-radius: 6px;
+  color: #e5e5e5;
+  border: 1px solid #2c2c2c;
+  border-radius: 4px;
   padding: 8px 14px;
 }
 
 #SecondaryButton:hover {
-  background-color: #25252c;
+  background-color: #262626;
 }
 
 #SecondaryButton:disabled {
-  color: #5a5a62;
+  color: #555555;
 }
 
 #IconButton {
   background-color: transparent;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 #IconButton:hover {
-  background-color: #25252c;
+  background-color: #262626;
 }
 
 #PresetButton {
   background-color: transparent;
-  color: #b4b4bd;
-  border: 1px solid #2b2b32;
-  border-radius: 6px;
+  color: #808080;
+  border: 1px solid #2c2c2c;
+  border-radius: 4px;
   padding: 6px 14px;
 }
 
 #PresetButton:hover {
-  background-color: #25252c;
+  background-color: #262626;
 }
 
 #PresetButton:checked {
-  background-color: #20203b;
-  border-color: #6366f1;
-  color: #ededee;
+  background-color: #1c2836;
+  border-color: #5a8ec6;
+  color: #e5e5e5;
 }
 
 #DayButton {
   background-color: transparent;
-  color: #b4b4bd;
-  border: 1px solid #2b2b32;
-  border-radius: 6px;
+  color: #808080;
+  border: 1px solid #2c2c2c;
+  border-radius: 4px;
   font-weight: 600;
 }
 
 #DayButton:hover {
-  background-color: #25252c;
+  background-color: #262626;
 }
 
 #DayButton:checked {
-  background-color: #6366f1;
+  background-color: #5a8ec6;
   color: #ffffff;
-  border-color: #6366f1;
+  border-color: #5a8ec6;
 }
 
 QRadioButton {
   background: transparent;
-  color: #ededee;
+  color: #e5e5e5;
   spacing: 8px;
 }
 
@@ -256,59 +244,57 @@ QRadioButton::indicator {
   width: 16px;
   height: 16px;
   border-radius: 9px;
-  border: 2px solid #3c3c44;
+  border: 2px solid #383838;
   background-color: transparent;
 }
 
 QRadioButton::indicator:checked {
-  background-color: #6366f1;
-  border: 4px solid #6366f1;
+  background-color: #5a8ec6;
+  border: 4px solid #5a8ec6;
 }
 
 QPushButton#LinkButton {
   background-color: transparent;
-  color: #7aa2f7;
+  color: #5a8ec6;
   border: none;
   padding: 4px 6px;
   font-weight: 600;
 }
 
 QPushButton#LinkButton:hover {
-  color: #8eb4ff;
+  color: #6b9dd4;
   text-decoration: underline;
 }
 
 #DangerButton {
-  background-color: #d04050;
+  background-color: #c44;
   color: #ffffff;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 8px 16px;
   font-weight: 600;
 }
 
 QPushButton#DangerButton:hover {
-  background-color: #b73643;
+  background-color: #a33;
 }
 
 QPushButton#DangerButton:disabled {
-  background-color: #e8a8af;
+  background-color: #555555;
   color: #ffffff;
 }
 
-/* --- inputs --- */
-
 QLineEdit {
-  background-color: #1b1b20;
-  color: #ededee;
-  border: 1px solid #2b2b32;
-  border-radius: 6px;
+  background-color: #1e1e1e;
+  color: #e5e5e5;
+  border: 1px solid #2c2c2c;
+  border-radius: 4px;
   padding: 8px 12px;
-  selection-background-color: #6366f1;
+  selection-background-color: #5a8ec6;
 }
 
 QLineEdit:focus {
-  border-color: #6366f1;
+  border-color: #5a8ec6;
 }
 
 #FilterInput {
@@ -322,44 +308,40 @@ QLineEdit:focus {
 }
 
 QLineEdit:disabled {
-  color: #5a5a62;
+  color: #555555;
 }
 
 #TimeRangeDash {
   background: transparent;
-  color: #87878f;
+  color: #808080;
   font-size: 16px;
 }
 
-/* --- about page --- */
-
 #AboutAppName {
   background: transparent;
-  color: #ededee;
+  color: #e5e5e5;
   font-size: 28px;
   font-weight: 700;
 }
 
 #AboutAppVersion {
   background: transparent;
-  color: #87878f;
+  color: #808080;
   font-size: 13px;
 }
 
 #AboutAppDescription {
   background: transparent;
-  color: #b4b4bd;
+  color: #808080;
   font-size: 14px;
 }
 
 #AboutAppCreator {
   background: transparent;
-  color: #87878f;
+  color: #808080;
   font-size: 13px;
   padding-top: 8px;
 }
-
-/* --- scrollbars --- */
 
 QScrollBar:vertical {
   background: transparent;
@@ -368,13 +350,13 @@ QScrollBar:vertical {
 }
 
 QScrollBar::handle:vertical {
-  background: #34343c;
-  border-radius: 4px;
+  background: #383838;
+  border-radius: 3px;
   min-height: 30px;
 }
 
 QScrollBar::handle:vertical:hover {
-  background: #45454e;
+  background: #444444;
 }
 
 QScrollBar::add-line:vertical,
@@ -387,96 +369,88 @@ QScrollBar::sub-page:vertical {
   background: none;
 }
 
-/* --- chips --- */
-
 #Chip {
-  background-color: #2a2e35;
-  border: 1px solid #2a2e35;
-  border-radius: 14px;
+  background-color: #262626;
+  border: 1px solid #2c2c2c;
+  border-radius: 8px;
 }
 
 #ChipLabel {
   background: transparent;
-  color: #e6e9ef;
+  color: #e5e5e5;
   font-size: 13px;
 }
 
 #ChipClose {
   background-color: transparent;
   border: none;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 QPushButton#ChipClose:hover {
-  background-color: #3a3f48;
+  background-color: #333333;
 }
 
-/* --- dialogs --- */
-
 QDialog {
-  background-color: #1a1c20;
+  background-color: #1e1e1e;
 }
 
 #AppPickerList {
-  background-color: #22262e;
-  border: 1px solid #2a2e35;
-  border-radius: 8px;
+  background-color: #1e1e1e;
+  border: 1px solid #2c2c2c;
+  border-radius: 5px;
   padding: 4px;
 }
 
 #AppPickerList::item {
   padding: 8px 10px;
-  border-radius: 6px;
-  color: #e6e9ef;
+  border-radius: 4px;
+  color: #e5e5e5;
 }
 
 #AppPickerList::item:selected {
-  background-color: #2a3147;
-  color: #e6e9ef;
+  background-color: #1c2836;
+  color: #e5e5e5;
 }
 
-/* --- edit lock banner --- */
-
 #EditLockBanner {
-  background-color: #252a3a;
-  border: 1px solid #353b52;
-  border-radius: 10px;
+  background-color: #1c2836;
+  border: 1px solid #2c2c2c;
+  border-radius: 6px;
 }
 
 #EditLockLabel {
   background: transparent;
-  color: #c8ccd4;
+  color: #e5e5e5;
   font-size: 13px;
 }
 
 #EditLockBar {
-  background-color: #1a1c20;
+  background-color: #191919;
   border: none;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 #EditLockBar::chunk {
-  background-color: #6366f1;
-  border-radius: 3px;
+  background-color: #5a8ec6;
+  border-radius: 2px;
 }
-
-/* --- settings --- */
 
 #SettingsHelpText {
   background: transparent;
-  color: #999da6;
+  color: #808080;
   font-size: 13px;
 }
 
 #DurationInput {
-  background-color: #1e2028;
-  border: 1px solid #2b2b32;
-  border-radius: 6px;
-  color: #ededee;
+  background-color: #1e1e1e;
+  border: 1px solid #2c2c2c;
+  border-radius: 4px;
+  color: #e5e5e5;
   padding: 6px 10px;
-  selection-background-color: #6366f1;
+  selection-background-color: #5a8ec6;
 }
 
 #DurationInput:focus {
-  border-color: #6366f1;
+  border-color: #5a8ec6;
 }
