@@ -92,7 +92,7 @@ Palisade requires Python 3.14 or later and [uv](https://docs.astral.sh/uv/)
 Clone the repository and install:
 
 ```bash
-git clone https://github.com/anomalyco/palisade.git
+git clone https://github.com/jacopo-trompeo/palisade.git
 cd palisade
 uv sync
 ```
